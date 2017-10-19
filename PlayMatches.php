@@ -16,7 +16,7 @@ if(null != ($res = yoursql_query("select id from matches where id is not null an
 			$minutes = $duration->h*60 +$duration->i;
 			$homeGoals = $match->getHomeTeam()->getGoals();
 			$awayGoals = $match->getAwayTeam()->getGoals();
-			if(90+15 < $minutes) //if the match lasted longer than 90min + halftime break
+			if(120+15 < $minutes) //if the match lasted longer than 90min + halftime break
 				{if($homeGoals > $awayGoals)
 					$winner = "home";
 				else
