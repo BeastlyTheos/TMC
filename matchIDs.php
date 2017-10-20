@@ -12,7 +12,7 @@ $res = yoursql_query("select home, away, context, round   from matches where typ
  while($r = $res->fetch_assoc()) //for each match  in the database
 	{if($matches = getTeamMatchesByRound($r["home"], 1+$r["round"])) //if CHPP returns data for this match
 		{$homeTeamHasFriendly = $awayTeamHasFriendly = $isMatchScheduled = false;
-		for($i = 1 ; $i <= $matches->getNumberMatches() ; $i++)
+		//for($i = 1 ; $i <= $matches->getNumberMatches() ; $i++)
 		//printf("%s verses %s", $matches->getMatch($i)->getHomeTeamName(), $matches->getMatch($i)->getAwayTeamName());
 		
 		/* find the HT matches of home, and cycle through them */
