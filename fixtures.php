@@ -1,4 +1,5 @@
-﻿<?$db = 'tournament';
+﻿<?php
+$db = 'tournament';
 include 'yoursql.php';
 include 'TournamentFunctions.php';
 $edition = (int) $_GET['e'];

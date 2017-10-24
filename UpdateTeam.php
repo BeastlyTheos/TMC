@@ -1,5 +1,6 @@
 ﻿<title>UpdateNames</title>
-<?include 'CHPPConnection.php';
+<?php
+include 'CHPPConnection.php';
 include 'TournamentFunctions.php';
 $res = yoursql_query('select id from teams');
 

@@ -1,5 +1,5 @@
  <title>Play Matches</title>
- <?php
+<?php
 include "CHPPConnection.php";
 include 'TournamentFunctions.php';
 

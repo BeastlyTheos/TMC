@@ -1,5 +1,6 @@
 <title>Cup Leavers</title>
-<?include 'CHPPConnection.php';
+<?php
+include 'CHPPConnection.php';
 $outOfCup = array();      
 
 $res = yoursql_query("select id from standings where inNationalCup");

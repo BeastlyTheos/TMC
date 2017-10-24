@@ -1,5 +1,5 @@
 ﻿ <title>kicking bots </title>
- <?php
+<?php
 include "CHPPConnection.php";
 
 $ids = yoursql_query('select id from teams');

@@ -1,5 +1,6 @@
  <title>TMC</title>
- <?include 'yoursql.php';
+<?php
+include 'yoursql.php';
 include 'TournamentFunctions.php';
 $edition = $_GET['e'];
 if(isset($_GET['r']))

@@ -1,4 +1,5 @@
-﻿<?$count = 0;
+﻿<?php
+$count = 0;
 class Team
 {
     public $id;

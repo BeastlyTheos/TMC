@@ -1,4 +1,5 @@
-<?include 'yoursql.php';
+<?php
+include 'yoursql.php';
 $context = $_GET['c'];
 $contextName = yoursql_query("select name from contexts where id = $context")->fetch_row()[0];
 echo "<title>standings for $context</title>";

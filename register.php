@@ -1,5 +1,5 @@
  <title>register</title>
- <?php
+<?php
 include "CHPPConnection.php";
 include 'TournamentFunctions.php';
 
@@ -35,6 +35,6 @@ if ( isset($_GET["id"]) && isset($_GET["seed"]) )
 	<input title="id" name="id" type="numeric" autofocus/>
 	<input title="seed" name="seed" type="numeric"/>
 	<input type="submit"/>
-	<input title="edition" name="edition" type="numeric" value="<?echo $edition?>"/>
-	<input title="context" name="context" type="numeric" value="<?echo $context?>"/>
+	<input title="edition" name="edition" type="numeric" value="<?php echo $edition?>"/>
+	<input title="context" name="context" type="numeric" value="<?php echo $context?>"/>
 </form>

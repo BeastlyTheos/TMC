@@ -1,4 +1,5 @@
-<?$today = new DateTimeImmutable();
+<?php
+$today = new DateTimeImmutable();
 $startOfNationalCup = new DateTimeImmutable("2017-08-24"); //thursday  before first national cup match
 define("CurrentRound", CupRoundOf($today));
 
