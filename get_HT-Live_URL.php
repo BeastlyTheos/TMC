@@ -1,7 +1,11 @@
- <title>TMC</title>
-<?php
+<?php $debug = true;
+require_once 'C:/xampp/vendor/autoload.php';
+  $loader = new Twig_Loader_Filesystem('templates');
+ $twig = new Twig_Environment($loader, array("debug"=>$debug));
+
 include 'yoursql.php';
 include 'TournamentFunctions.php';
+
 $edition = $_GET['e'];
 if(isset($_GET['r']))
 	$round = $_GET['r'];
@@ -22,8 +26,7 @@ if($res)
 	$URL .= implode(',', $ids);
 	$URL .= '&actionType=addMatch&SourceSystem=Hattrick';
 	
-	echo $URL;
 	}
-else
-	echo "No matchIds for $edition";
+
+$twig->display("get_HT-Live_URL.html", array('title'=>"HT-Live round $round", "URL"=>$URL));
 	?>
