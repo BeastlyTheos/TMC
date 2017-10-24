@@ -1,10 +1,6 @@
 <?php
-$db = "tournament";
-$mysql_host = 'localhost';
-$mysql_user = '';
-$mysql_pw = '';
-include "../yoursql.php";
-include "../pht.php";
+include "yoursql.php";
+include "pht.php";
 
 $key = 'hrLVfkDKtEl9ZxXcp7jNr2';
  $secret = 'htARgp8rOVLEAvtLcVuxKLh3nTsNfU7qUOjjCWv5EhA';

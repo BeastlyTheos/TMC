@@ -1,5 +1,5 @@
 <?php
-include "../PHT.php";
+include "PHT.php";
 $key = "hrLVfkDKtEl9ZxXcp7jNr2";
 $secret = "htARgp8rOVLEAvtLcVuxKLh3nTsNfU7qUOjjCWv5EhA"; 
 $callBackURL = "http://localhost/tournament/save_tokens.php";

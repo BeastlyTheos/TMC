@@ -1,11 +1,6 @@
 <?php
-$mysql_host = 'localhost';
-$mysql_user = "root";
-$mysql_pw = "";
-$db = 'tournament';
-include "..\pht.php";
-//include "local_variables.php";
-Include "..\yoursql.php";
+include "pht.php";
+Include "yoursql.php";
 session_start();
 
 /*check if user has access, if not, redirect to login page*/
