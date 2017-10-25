@@ -1,20 +1,41 @@
-<?php
+<?php $debug = true;
+require_once 'C:/xampp/vendor/autoload.php';
+  $loader = new Twig_Loader_Filesystem('templates');
+ $twig = new Twig_Environment($loader, array("debug"=>$debug));
+
 include 'yoursql.php';
+
+class standing
+	{public $rank;
+	public $name;
+	public $wins;
+	public $losses;
+	public $goalsFor;
+	public $goalsAgainst;
+	public $goalsRatio;
+	public $winningPercent;
+	}
+
+
 $context = $_GET['c'];
 $contextName = yoursql_query("select name from contexts where id = $context")->fetch_row()[0];
-echo "<title>standings for $context</title>";
 
+$res = yoursql_query("call getStandings($context)");
 
-$standings = yoursql_query("call getStandings($context)");
-
-printf("[u]$contextName [/u]<br/>[table]<br/>[tr][th]Rank[/th][th]Team[/th][th]W[/th][th]L[/th][th]GF[/th][th]GA[/th][th]GR[/th][th]WP[/th][/tr]<br>\n");
-for($i = 1 ; $r = $standings->fetch_assoc() ; $i++)
-	{//if ( $i <= 3)
-//	yoursql_query("call contextualise_team(".$r['id'].", 6, $i);");
-$gr = sprintf("%.0f", $r['gr'] *1000);
-	$wp = sprintf("%03.0f", $r['wp'] *1000);
-	printf("[tr][td]%d[/td][td]%s[/td][td]%d[/td][td]%d[/td][td]%d[/td][td]%d[/td][td]%4s[/td][td]%4s[/td][/tr]<br>\n",
-	$i, $r['name'], $r['w'], $r['l'], $r['gf'], $r['ga'], '.'.$gr, '.'.$wp);
+$standings = array();
+for($i = 1 ; $r = $res->fetch_assoc() ; $i++)
+	{
+	$s = new standing();
+	$s->rank = $i;
+	$s->name = $r['name'];
+	$s->wins = $r['w'];
+	$s->losses = $r['l'];
+	$s->goalsFor = $r['gf'];
+	$s->goalsAgainst = $r['ga'];
+	$s->goalsRatio = sprintf("%.0f", $r['gr'] *1000);
+	$s->winningPercent = sprintf("%03.0f", $r['wp'] *1000);
+	$standings[] = $s;
 	}
-echo "[/table]";
+
+$twig->display("view_standings.html", array("title"=>"standings for $contextName", "standings"=>$standings));
 ?>

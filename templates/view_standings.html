@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<p>To create the standings table, copy the following, and paste it into a forum post.  When done, use yur browser's back button to return to the admin panel.</p>
+
+<textarea cols=125 rows={{standings|length+3}}>
+[table]
+[tr][th]Rank[/th][th]Team[/th][th]W[/th][th]L[/th][th]GF[/th][th]GA[/th][th]GR[/th][th]WP[/th][/tr]
+{% for s in standings %}
+[tr][td]{{s.rank}}[/td][td]{{s.name}}[/td][td]{{s.wins}}[/td][td]{{s.losses}}[/td][td]{{s.goalsFor}}[/td][td]{{s.goalsAgainst}}[/td][td]{{s.goalsRatio}}[/td][td]{{s.winningPercent}}[/td][/tr]
+{% endfor %}
+[/table]
+</textarea>
+{%endblock body %}
