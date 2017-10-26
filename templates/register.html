@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Register Team{% endblock title %}
+
+{%block body %}
+{% if registeredTeamId %}
+<p> registered team with id {{registeredTeamId}}</p>
+{% endif %}
+
+<form action="register.php" method="get">
+	<input title="id" name="id" type="numeric" autofocus/>
+	<input title="seed" name="seed" type="numeric"/>
+	<input type="submit"/>
+	<input title="edition" name="edition" type="numeric"{%if edition%} value="{{edition}}"{%endif%}/>
+	<input title="context" name="context" type="numeric" {%if context%} value="{{context}}"{%endif%}/>
+</form>
+{% endblock body %}

@@ -1,8 +1,13 @@
- <title>register</title>
-<?php
+<?php $debug = true;
+require_once 'C:/xampp/vendor/autoload.php';
+  $loader = new Twig_Loader_Filesystem('templates');
+ $twig = new Twig_Environment($loader, array("debug"=>$debug));
+
 include "CHPPConnection.php";
 include 'TournamentFunctions.php';
 
+
+$registeredTeamId = null;
 
 if ( isset($_GET["context"]))
 	$context = $_GET["context"];
@@ -27,14 +32,8 @@ if ( isset($_GET["id"]) && isset($_GET["seed"]) )
 	yoursql_query("insert into standings set id=$id, context=$context, seed =$seed");
 	yoursql_query("insert into arenas set id=$arenaId, region=$regionId, team = $id on duplicate key update region=$regionId");
 
-	echo "<p>registered ".$_GET["id"]. "</p>";
+	$registeredTeamId = $_GET["id"];
 	}//end registering team
-	?>
 
-<form action="register.php" method="get">
-	<input title="id" name="id" type="numeric" autofocus/>
-	<input title="seed" name="seed" type="numeric"/>
-	<input type="submit"/>
-	<input title="edition" name="edition" type="numeric" value="<?php echo $edition?>"/>
-	<input title="context" name="context" type="numeric" value="<?php echo $context?>"/>
-</form>
+$twig->display("register.html", array("registeredTeamId"=>$registeredTeamId, "edition"=>$edition, "context"=>$context));
+	?>
