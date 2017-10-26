@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Cup Leavers{% endblock title %}
+
+{% block body %}
+{% if teamsInCup|length + teamsEliminated|length > 0 %}
+<p>Found {{teamsInCup|length + teamsEliminated|length}} teams.</p>
+
+{% if teamsInCup %}
+<h2>Teams in Cup</h2>
+<ul>
+{% for team in teamsInCup %}
+<li>{{team}}</li>
+{% endfor %}
+</ul>
+{% else %}
+<h2>No teams remain in the cup system</h2>
+{% endif %}
+
+{% if teamsEliminated %}
+<h2>Teams eliminated from the cup system</h2>
+<ul>
+{% for team in teamsEliminated %}
+<li>{{team}}</li>
+{% endfor %}
+</ul>
+{% else %}
+<h2>No teams were eliminated from the cup system</h2>
+{% endif %}
+{% else %}
+<p>No teams were in the cup system to begin with.</p>
+{% endif %}
+{% endblock body %}

@@ -1,26 +1,30 @@
-<title>Cup Leavers</title>
-<?php
+<?php $debug = true;
+require_once 'C:/xampp/vendor/autoload.php';
+  $loader = new Twig_Loader_Filesystem('templates');
+ $twig = new Twig_Environment($loader, array("debug"=>$debug));
+
 include 'CHPPConnection.php';
-$outOfCup = array();      
+
+$teamIdsEliminated = array();
+$teamNamesEliminated = array();
+$teamNamesInCup = array();
 
 $res = yoursql_query("select id from standings where inNationalCup");
 
 if($res)
-	{echo "found ".$res->num_rows." teams<br/>";
-	
-	while($r = $res->fetch_assoc())
-                    if( ! $HT->getTeam($r['id'])->isInCup())
-		                    {$outOfCup[] = $r['id'];
-	echo $HT->getTeam($r['id'])->getTeamName()." was eliminated.<br/>";
-}
-else
-	echo $HT->getTeam($r['id'])->getTeamName()." is still in it.<br/>";
+	{while($r = $res->fetch_assoc())
+		{$team = $HT->getTeam($r['id']);
+if( ! $team->isInCup())
+			{$teamIdsEliminated[] = $team->getTeamId();
+			$teamNamesEliminated[] = $team->getTeamName();
+			}
+		else
+			$teamNamesInCup[] = $team->getTeamName();
+		}//end while there is a team left in the SQL result
 
-
-echo count($outOfCup)." teams left the cup";
-	if(count($outOfCup)) //if there was a team that exited the cup
-		yoursql_query("update standings set inNationalCup = 0 where id in (".implode(", ", $outOfCup).")");
+	if(count($teamIdsEliminated)) //if there was a team that exited the cup
+		yoursql_query("update standings set inNationalCup = 0 where id in (".implode(", ", $teamIdsEliminated).")");
 	}//end if there are teams
-else
-	echo "no teams were in the cup to begin with";
+
+$twig->display("check_cup_eliminations.html", array("teamsEliminated"=>$teamNamesEliminated, "teamsInCup"=>$teamNamesInCup));
 ?>
