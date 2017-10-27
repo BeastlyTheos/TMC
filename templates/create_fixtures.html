@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Create Fixtures{% endblock title %}
+
+{% block body %}
+<h2>Pairing teams:</h2>
+<ul>
+{% for t in teams %}
+<li>{{t.name}}</li>
+{% endfor %}
+</ul>
+{% endblock body %}

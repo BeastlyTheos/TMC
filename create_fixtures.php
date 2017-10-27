@@ -1,5 +1,8 @@
-﻿<title>Create Fixtures</title>
-<?php
+<?php $debug = true;
+require_once 'C:/xampp/vendor/autoload.php';
+  $loader = new Twig_Loader_Filesystem('templates');
+ $twig = new Twig_Environment($loader, array("debug"=>$debug));
+
 include 'CHPPConnection.php';
 include 'TournamentFunctions.php';
 include 'team.php';
@@ -30,27 +33,21 @@ for ($i = 0; $i < $numTeams; $i++)
 //	{$teams[$numTeams] = new Team(0, $numTeams, "bye");
 //	          $numTeams++;      
 //	          }
-	         
-            //write a list of $teams to be paired
-printf("pairing teams ");
-foreach($teams as $t)
-	printf("%s, ", $t->name);
-printf("");
 
 //pair the $teams
             $current = 0; $opponent = 1;
             while ($matches->count() * 2 < $numTeams) //while there are still matches to be set
-	{printf("%d matches set.<br/> Starting with %s, played %d<br>", $matches->count(), $teams[$current]->name, $teams[ $current]->gamesPlayed); 
-	
+	{///printf("%d matches set.<br/> Starting with %s, played %d<br>", $matches->count(), $teams[$current]->name, $teams[ $current]->gamesPlayed);
+
 	                //                find next $opponent for $current
 	                while ($teams[$opponent]->hasMatch || $current == $opponent || $teams[$current]->hasPlayed($teams[$opponent]->id, $context) || (( ! $teams[$opponent]->id  || ! $teams[ $current]->id) && ($teams[$opponent]->gamesPlayed < $maxgp && $teams[$current]->gamesPlayed < $maxgp))) //while $current and $opponent are an invalid pairing
-		                {printf("Cannot play " . $teams[$opponent]->name.''. $teams[ $opponent]->gamesPlayed);
-		printf("%shasmatch, %ssame, %shasplayed<br/>", $teams[$opponent]->hasMatch, $current == $opponent, $teams[$current]->hasPlayed($teams[$opponent]->id, $context));
+		                {///printf("Cannot play " . $teams[$opponent]->name.''. $teams[ $opponent]->gamesPlayed);
+		///printf("%shasmatch, %ssame, %shasplayed<br/>", $teams[$opponent]->hasMatch, $current == $opponent, $teams[$current]->hasPlayed($teams[$opponent]->id, $context));
 		$opponent++;
 		                    if($opponent >= $numTeams) //while there's no more $opponents
 			{//undo matches 
 			$m = $matches->Pop();
-	printf('undid matche between %s and %s<br/>', $m->home->name, $m->away->name);
+	///printf('undid matche between %s and %s<br/>', $m->home->name, $m->away->name);
 			$teams[$m->home->rank]->hasMatch = false; 
 			$teams[$m->away->rank]->hasMatch = false;
 			$current = $m->home->rank; $opponent = $m->away->rank; //set current and opponent to indicies of the popped match
@@ -58,9 +55,11 @@ printf("");
 			}//end if there's no more $opponents
 		}//end while $current and $opponent are invalid pairing
 		
-	printf("Paired %s with %s<br/>", $teams[$current]->name, $teams[$opponent]->name);
+//record current and opponent as a pairing
+	///printf("Paired %s with %s<br/>", $teams[$current]->name, $teams[$opponent]->name);
 	$matches->Push(new Match($teams[$current], $teams[$opponent]));
 	
+//find the next team needing a match
 	while ($current < $numTeams && $teams[$current]->hasMatch)
 		$current++; //increment  current to the next team without a match
 	$opponent = $current + 1;
@@ -96,7 +95,9 @@ $temp = new SplQueue(); //for holding byes
                                   yoursql_query("call scheduleBye( " . $m->home->id . ", $context, $upcomingRound)");
                                   }
 
-                        printf("[/TABLE]");
+                        ///printf("[/TABLE]");
+
+$twig->display("create_fixtures.html", array("teams"=>$teams));
 }//end try
         catch (HTError $e)
         { printf($e.GetType() + "<br/>" + $e.Message +"<br/>" + $e.StackTrace); }
