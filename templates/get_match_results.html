@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Play Matches{% endblock title %}
+
+{% block body %}
+<h1>playing matchs</h1>
+
+{% if matchResults %}
+<h2>results of finished matches</h2>
+<table>
+<thead><tr><th>home</th><th>score</th><th>away</th></tr></thead>
+<tbody>
+{% for result in matchResults %}
+<tr><td>{{result.homeName}}</td><td> {{result.homeGoals}} - {{result.awayGoals}}</td><td>{{result.awayName}}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<h2>no completed matches </h2>
+{% endif %}
+
+{% if unplayedMatches %}
+<h2>matches that have not been played yet</h2>
+<ul>
+{% for match in unplayedMatches %}
+<li>{{match.homeName}} verses {{match.awayName}}</li>
+{% endfor %}
+{% else %}
+<h2>no unplayed matches </h2>
+{% endif %}
+{% endblock body %}
