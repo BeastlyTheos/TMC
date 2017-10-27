@@ -1,16 +1,30 @@
-﻿<title>Get match IDs</title>
-<?php
+<?php $debug = true;
+require_once 'C:/xampp/vendor/autoload.php';
+  $loader = new Twig_Loader_Filesystem('templates');
+ $twig = new Twig_Environment($loader, array("debug"=>$debug));
+ 
 include 'CHPPConnection.php';
 include 'TournamentFunctions.php';
 define("dateFormat", "Y-m-d");
 
-echo "<h1>Getting match IDs</h1><br/>\n";
+class MatchStatus
+	{public $home;
+	public $away;
+	public $status;
+	}
+
+$matchStatuses = array();
+
 //get teams   and round of matches with no ID, ordering them by earlier matches first
-$res = yoursql_query("select home, away, context, round   from matches where type = 'match' and id is null order by round asc");
+$res = yoursql_query("select home, away, h.name as homeName, a.name as awayName, context, round   from matches, teams as h, teams as a  where h.id = home and away = a.id and type = 'match' and matches.id is null order by round asc");
   
 //find the ID of every match
  while($r = $res->fetch_assoc()) //for each match  in the database
-	{if($matches = getTeamMatchesByRound($r["home"], 1+$r["round"])) //if CHPP returns data for this match
+	{$matchStatus = new MatchStatus();
+	$matchStatus->home = $r["homeName"];
+	$matchStatus->away = $r["awayName"];
+	
+	if($matches = getTeamMatchesByRound($r["home"], 1+$r["round"])) //if CHPP returns data for this match
 		{$homeTeamHasFriendly = $awayTeamHasFriendly = $isMatchScheduled = false;
 		//for($i = 1 ; $i <= $matches->getNumberMatches() ; $i++)
 		//printf("%s verses %s", $matches->getMatch($i)->getHomeTeamName(), $matches->getMatch($i)->getAwayTeamName());
@@ -27,10 +41,14 @@ $res = yoursql_query("select home, away, context, round   from matches where typ
 				if ($m->getAwayTeamId() == $r["away"] || $m->getHomeTeamId() == $r["away"] ) //if opponent is correct
 					{$isMatchScheduled = true;
 					if ( $m->getHomeTeamId() == $r["away"]) //if the actual home team is the scheduled away team
-						{printf("<h2>Swapping venues for %s and %s</h2<br/>\n", $r["home"], $r["away"]);
+						{$temp = $matchStatus->home;
+						$matchStatus->home = $matchStatus->away;
+						$matchStatus->away = $temp;
+						$matchStatus->status = "Swapped venues. ";
+
 						yoursql_query("call SwapVenue(".$r['home'].", ".$r['away'].", ".$r['context'].", ".$r['round'].")");
 						}//end swapping venues
-					printf("</h3>Setting %d as match id for %s verses %s.</h3>\n", $m->getId(), $m->getHomeTeamName(), $m->getAwayTeamName());
+					$matchStatus->status = $matchStatus->status . sprintf("Setting %s as match id for %s verses %s.", $m->getId(), $m->getHomeTeamName(), $m->getAwayTeamName());
 					yoursql_query("call setMatchId(".$m->getId().", ".$m->getHomeTeamId().", ".$m->getAwayTeamId().", ".$r['context'].", ".$r['round'].')');
 					}//end if found correct match
 				}//end if is a friendly
@@ -48,32 +66,21 @@ $res = yoursql_query("select home, away, context, round   from matches where typ
 						$awayTeamHasFriendly = true;
 					}//end for each of away's  HT matches
 				}//end if chpp found matches for away team
-			else
-				printf("<h2>didn't find any away matches for %s</h2></br>\n", HTMatchesURL($r["away"]));
 			
-			printf("match was not scheduled. home %s. away %s<br/>\n", $homeTeamHasFriendly? "true": "false", $awayTeamHasFriendly? "true": "false");
 			if($homeTeamHasFriendly)
 				if($awayTeamHasFriendly)
-					printf("Both %s and %s have friendlies against wrong oppponents.<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
+					$matchStatus->status = sprintf("Both %s and %s have friendlies against wrong oppponents.<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
 				else //away does not have a friendly
-					{printf("%s forfits to %s<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
-					yoursql_query("call forfit( ${r['home']}, ${r["context"]}, ${r['round']})");
-					}//end home team has friendly
-			else //home team does not have friendly
-				if($awayTeamHasFriendly)
-					{printf("%s forfits to %s<br/>\n", HTMatchesURL($r["away"]), HTMatchesURL($r["home"]));
+					{$matchStatus->status = sprintf("%s forfits to %s<br/>\n", HTMatchesURL($r["away"]), HTMatchesURL($r["home"]));
 					yoursql_query("call forfit(${r['away']}, ${r['context']}, ${r['round']})");
 					}//end away team has friendly
 				else //away does not have a friendly
-					printf("neither %s nor %s have friendlies.<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
+					$matchStatus->status = sprintf("neither %s nor %s have friendlies.<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
 			}//end if match was not scheduled
 		}//end if CHPP returned home data
-	else //CHPP did not find data
-		printf("CHPP returned no home matches for %s verses %s<br/>\n", $r["home"], $r["away"]);
+		
+	$matchStatuses[] = $matchStatus;
 	}//end looping through hmatches in the db
-
-if( ! $res->num_rows)
-	echo 'no matchIds to be found';
 
 function startOfNationalCupWeek($weekNum)
 {global $startOfNationalCup;
@@ -91,4 +98,6 @@ if( ! isset($teamMatches[$id][$round]) || null === $teamMatches[$id][$round])
 	$teamMatches[$id][$round] = $HT->getSeniorTeamMatches($id, startOfNationalCupWeek($round+1)->format(dateFormat)); 
 	return $teamMatches[$id][$round];
 	}
+
+$twig->display("get_match_IDs.html", array("matchStatuses"=>$matchStatuses));
 ?>

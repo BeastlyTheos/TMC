@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Get match IDs{% endblock title %}
+
+{% block body %}
+<h1>Getting match IDs</h1>
+{% if matchStatuses %}
+<table>
+<thead><tr><th>home</th><th>away</th><th>status</th></tr></thead>
+<tbody>
+{% for match in matchStatuses %}
+<tr><td>{{match.home}}</td><td>{{match.away}}</td><td>{{match.status|raw}}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>All matches already have an ID.</p>
+{% endif %}
+{% endblock body %}
