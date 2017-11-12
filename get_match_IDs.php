@@ -66,15 +66,20 @@ $res = yoursql_query("select home, away, h.name as homeName, a.name as awayName,
 						$awayTeamHasFriendly = true;
 					}//end for each of away's  HT matches
 				}//end if chpp found matches for away team
-			
+
 			if($homeTeamHasFriendly)
 				if($awayTeamHasFriendly)
 					$matchStatus->status = sprintf("Both %s and %s have friendlies against wrong oppponents.<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
-				else //away does not have a friendly
+				else //away does not have a friendly, but home has one
+					{$matchStatus->status = sprintf("%s forfits to %s<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
+					yoursql_query("call forfit(${r['home']}, ${r['context']}, ${r['round']})");
+					}//end away does not have a friendly, but home has one
+			else //home does not have a friendly
+				if($awayTeamHasFriendly)
 					{$matchStatus->status = sprintf("%s forfits to %s<br/>\n", HTMatchesURL($r["away"]), HTMatchesURL($r["home"]));
 					yoursql_query("call forfit(${r['away']}, ${r['context']}, ${r['round']})");
-					}//end away team has friendly
-				else //away does not have a friendly
+					}//end home does not have a friendly, but away has one
+				else //neither has a friendly
 					$matchStatus->status = sprintf("neither %s nor %s have friendlies.<br/>\n", HTMatchesURL($r["home"]), HTMatchesURL($r["away"]));
 			}//end if match was not scheduled
 		}//end if CHPP returned home data
