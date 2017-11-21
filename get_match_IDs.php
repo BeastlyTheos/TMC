@@ -59,7 +59,7 @@ $res = yoursql_query("select home, away, h.name as homeName, a.name as awayName,
 			{if($matches = getTeamMatchesByRound($r["away"], $r["round"]))
 				{
 				/* find away's HT matches, and cycle through them */
-				for ($i = $matches->getNumberMatches() ; ! $awayTeamHasFriendly && null != ($m = $matches->getMatch($i)) && $m->getDate() >= startOfNationalCupWeek($r["round"]) ; $i--) //for each match
+				for ($i = $matches->getNumberMatches() ; !$awayTeamHasFriendly &&   null != ($m = $matches->getMatch($i)) && $m->getDate() >= startOfNationalCupWeek($r["round"])->format(dateFormat) ; $i--) //for each match
 					{$m = $matches->getMatch($i);
 					//printf("considering the match between %s and %s<br/>\n", $m->getHomeTeamName(), $m->getAwayTeamName());
 					if(4 <= $m->getType() && $m->getType() <= 9 && $m->getType() != 8) //if is a friendly
