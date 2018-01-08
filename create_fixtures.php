@@ -23,16 +23,16 @@ for ($i = 0; $i < $numTeams; $i++)
 	$teams[$i] = new Team($r['id'], $i, $r['name'], $r['gp']);
 	if ( $r['gp'] > $maxgp ) 
 		$maxgp = $r['gp'];
-	if( $numTeams %2 && ($numTeams-1) /2 == $i)
-		{$i++;
-		$teams[$i] = new Team(0, $i, "bye");
-		$numTeams++;
-		}//end if this is the time to insert th bye
+	//if( $numTeams %2 && ($numTeams-1) /2 == $i)
+		//{$i++;
+		//$teams[$i] = new Team(0, $i, "bye");
+		//$numTeams++;
+		//}//end if this is the time to insert th bye
 	}//end for loop
-//            if ($numTeams % 2 == 1) //insure there is an even number
-//	{$teams[$numTeams] = new Team(0, $numTeams, "bye");
-//	          $numTeams++;      
-//	          }
+            if ($numTeams % 2 == 1) //insure there is an even number
+	{$teams[$numTeams] = new Team(0, $numTeams, "bye");
+	          $numTeams++;
+	          }
 
 //pair the $teams
             $current = 0; $opponent = 1;
