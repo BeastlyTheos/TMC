@@ -6,14 +6,16 @@ class Team
         public $rank;
     public $name;
 public $gamesPlayed;
+public $byes;
     public $hasMatch;
 
-public function __construct($id, $rank = 0, $name = "", $gp = 0)
+public function __construct($id, $rank, $name, $gp, $byes)
     {
         $this->id = $id;
         $this->rank = $rank;
         $this->name = $name;
 $this->gamesPlayed = $gp;
+$this->byes = $byes;
 $this->hasMatch = false;
 }//end constructor 
 
