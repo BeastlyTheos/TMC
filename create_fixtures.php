@@ -30,8 +30,19 @@ for ($i = 0; $i < $numTeams; $i++)
 		//}//end if this is the time to insert th bye
 	}//end for loop
             if ($numTeams % 2 == 1) //insure there is an even number
-	{$teams[$numTeams] = new Team(0, $numTeams, "bye");
-	          $numTeams++;
+	{
+	$maxPlayed = 0;
+	foreach ( $teams as $team )
+		if ( $team->gamesPlayed > $maxPlayed )
+			$maxPlayed = $team->gamesPlayed;
+
+	for ( $i = $numTeams - 1 ; $teams[$i]->gamesPlayed < $maxPlayed ; $i-- )
+		;
+	$team = $teams[$i];
+	$team->hasMatch = true;
+	$bye = new Team(0, $numTeams, "bye");
+	$matches->Push( new Match($team, $bye));
+	          echo "<p>gave a bye to ".$team->name."</p>";
 	          }
 
 //pair the $teams
