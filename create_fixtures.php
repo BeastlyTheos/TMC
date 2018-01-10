@@ -23,7 +23,14 @@ for ($i = 0; $i < $numTeams; $i++)
 	$teams[$i] = new Team($r['id'], $i, $r['name'], $r['gp'], $r['byes']);
 	}
 
-pairing_state_machine::create($teams);
+$matches = pairing_state_machine::create($teams);
+echo "<h1>{$matches->count()}matches are:</h1>";
+echo '<ul>';
+while ($matches->count())
+	{$m = $matches->pop();
+	echo "<li>{$m->home->name} verses {$m->away->name}</li>";
+	}
+echo '</ul>';
 }//end try
         catch (HTError $e)
         { printf($e.GetType() + "<br/>" + $e.Message +"<br/>" + $e.StackTrace); }
