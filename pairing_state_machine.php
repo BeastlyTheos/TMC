@@ -76,6 +76,32 @@ return false;
 
 
 private static function pairBottomTeams($teams, $context, $matches)
-{return true;}
+{//find bottom unpaired team
+for ( $bottom = count($teams) -1 ; $bottom >= 0 && $teams[$bottom]->hasMatch ; $bottom-- )
+	;
+	
+//check for terminating condition
+if ( $bottom < 0 )
+	return $matches;
+	
+//find lowest team that can play $bottom
+for ( $opponent = $bottom - 1 ; $opponent >= 0 ; $opponent-- )
+	if ( ! $teams[$opponent]->hasMatch && ! $teams[$bottom]->hasPlayed($teams[$opponent]->id, $context) ) //if this is a valid pairing
+		{//create the match, then recurse to find complete set of pairings
+		$teams[$bottom]->hasMatch = $teams[$opponent]->hasMatch = true;
+		$match = new Match($teams[$bottom], $teams[$opponent]);
+		$matches->push($match);
+
+		if ( self::pairTopTeams($teams, $context, $matches))
+			return $matches;
+		else //could not find a valid set of fixtures for this pairing
+			{
+			$match = $matches->pop();
+			$match->home->hasMatch = $match->away->hasMatch = false;
+			}//end could not find a valid set of fixtures for this pairing
+		}//end if this pair can play one another
+
+return false;
+}//end pair bottom teams
 }//end class
 ?>
