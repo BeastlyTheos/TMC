@@ -31,6 +31,26 @@ echo '<ul>';
 foreach ( $matches as $m )
 	echo "<li>{$m->home->name} verses {$m->away->name}</li>";
 echo '</ul>';
+
+            //load $matches into sql
+$sql->begin_transaction();
+foreach ( $matches as $m )
+	{//as for convention, insure that the home team is not a bye
+	if (0 == $m->home->id)
+		{
+		$temp = $m->home;
+		$m->home = $m->away;
+		$m->away = $temp;
+		}
+
+	if (0 == $m->away->id)
+		yoursql_query("call scheduleBye( " . $m->home->id . ", $context, $upcomingRound)");
+	else
+		yoursql_query('call ScheduleMatch('.$m->home->id.', '.$m->away->id.", $context, $upcomingRound)");
+	}//END EACH MATCH
+$sql->commit();
+
+echo "<p>Fixtures saved successfully</p>";
 }//end try
         catch (HTError $e)
         { printf($e.GetType() + "<br/>" + $e.Message +"<br/>" + $e.StackTrace); }
