@@ -24,6 +24,7 @@ for ($i = 0; $i < $numTeams; $i++)
 	}
 
 $matches = pairing_state_machine::create($teams, $context);
+usort($matches, 'teamcmp');
 
 echo "<h1>".count($matches)." matches are:</h1>";
 echo '<ul>';
@@ -33,4 +34,7 @@ echo '</ul>';
 }//end try
         catch (HTError $e)
         { printf($e.GetType() + "<br/>" + $e.Message +"<br/>" + $e.StackTrace); }
+
+function teamcmp( $a, $b)
+{return $a->home->rank - $b->home->rank;}
 ?>

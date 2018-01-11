@@ -103,7 +103,7 @@ for ( $opponent = $bottom - 1 ; $opponent >= 0 ; $opponent-- )
 	if ( ! $teams[$opponent]->hasMatch && ! $teams[$bottom]->hasPlayed($teams[$opponent]->id, $context) ) //if this is a valid pairing
 		{//create the match, then recurse to find complete set of pairings
 		$teams[$bottom]->hasMatch = $teams[$opponent]->hasMatch = true;
-		$match = new Match($teams[$bottom], $teams[$opponent]);
+		$match = new Match($teams[$opponent], $teams[$bottom]);
 		$matches->push($match);
 
 		if ( self::pairTopTeams($teams, $context, $matches))
