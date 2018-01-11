@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $count = 0;
 class Team
 {
