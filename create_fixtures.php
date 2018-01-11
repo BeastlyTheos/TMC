@@ -24,12 +24,11 @@ for ($i = 0; $i < $numTeams; $i++)
 	}
 
 $matches = pairing_state_machine::create($teams, $context);
-echo "<h1>{$matches->count()}matches are:</h1>";
+
+echo "<h1>".count($matches)." matches are:</h1>";
 echo '<ul>';
-while ($matches->count())
-	{$m = $matches->pop();
+foreach ( $matches as $m )
 	echo "<li>{$m->home->name} verses {$m->away->name}</li>";
-	}
 echo '</ul>';
 }//end try
         catch (HTError $e)

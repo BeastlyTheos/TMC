@@ -3,6 +3,21 @@ class pairing_state_machine
 {
 public static function create($teams, $context)
 {
+$stack = self::setBye($teams, $context);
+$arr = array();
+
+while ( $stack->count())
+	{
+$m = $stack->pop();
+	$arr[] = $m;
+	}//end converting stack to array
+
+return $arr;
+}//end function create
+
+
+private static function setBye($teams, $context)
+{
 $matches = new SplStack();
 
 if ( count($teams) %2 == 1 )
@@ -38,11 +53,10 @@ if ( count($teams) %2 == 1 )
 			}//end iterating through teams with $gp games played and $numByes byes
 	}//end if there is an odd number of teams
 else //there are not an odd number of teams
-	{
 	self::pairTopTeams($teams, $context, $matches);
-	return $matches;
-	}//end if their are an even number of teams
-}//end function create
+
+return $matches;
+}//end function setBye
 
 
 private static function pairTopTeams($teams, $context, $matches)
