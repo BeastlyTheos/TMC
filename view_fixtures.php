@@ -50,14 +50,24 @@ while ( $context = $contexts->fetch_assoc() )
 
 		//load score if the match has happened
 		if ( $hasCompleted )
-			$row[] = sprintf("%2d - %2d", $m["homegoals"], $m["awaygoals"]);
+			if ( "match" == $m["type"] )
+				$row[] = sprintf("%2d - %2d", $m["homegoals"], $m["awaygoals"]);
+			else
+				$row[] = "__ - __";
 
 		//load the names of the away teams
 		$row[] = $m["awayName"];
 
 		//load either the match id or the areana id
 		if ( $hasCompleted )
-			$row[] = $m["matchId"];
+			{
+			if ( "match" == $m["type"] )
+				$row[] = $m["matchId"];
+			else if ( "homeForfit" == $m["type"] )
+				$row[] = "home forfit";
+			else if ( "awayForfit" == $m["type"] )
+				$row[] = "away forfit";
+			}//end if has completed
 		else if ( $usesNeutralVenues )
 			$row[] = $m["arena"];
 
