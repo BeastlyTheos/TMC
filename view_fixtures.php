@@ -50,7 +50,7 @@ while ( $context = $contexts->fetch_assoc() )
 
 		//load score if the match has happened
 		if ( $hasCompleted )
-			$row[] = sprintf("%d %d", $m["homegoals"], $m["awaygoals"]);
+			$row[] = sprintf("%2d - %2d", $m["homegoals"], $m["awaygoals"]);
 
 		//load the names of the away teams
 		$row[] = $m["awayName"];
