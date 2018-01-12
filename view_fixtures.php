@@ -68,5 +68,11 @@ while ( $context = $contexts->fetch_assoc() )
 	$tables[$context["name"]] = $rows;
 	}//end iterating through contexts
 
-var_dump($tables);
+
+$twig->display("view_fixtures.html", array(
+	"title"=>"Round $round Fixtures",
+	"headers"=>$headers,
+	"tables"=>$tables
+	)
+	);
 ?>
