@@ -46,7 +46,7 @@ while ( $context = $contexts->fetch_assoc() )
 		$row = array();
 
 		//load the name of the home team
-		$row [] = $m["homeName"];
+		$row [] = sprintf("%32s [teamid=%d]", $m["homeName"], $m["homeId"]);
 
 		//load score if the match has happened
 		if ( $hasCompleted )
@@ -56,13 +56,13 @@ while ( $context = $contexts->fetch_assoc() )
 				$row[] = "__ - __";
 
 		//load the names of the away teams
-		$row[] = $m["awayName"];
+		$row [] = sprintf("%32s [teamid=%d]", $m["awayName"], $m["awayId"]);
 
 		//load either the match id or the areana id
 		if ( $hasCompleted )
 			{
 			if ( "match" == $m["type"] )
-				$row[] = $m["matchId"];
+				$row[] = sprintf("[matchid=%d]", $m["matchId"]);
 			else if ( "homeForfit" == $m["type"] )
 				$row[] = "home forfit";
 			else if ( "awayForfit" == $m["type"] )

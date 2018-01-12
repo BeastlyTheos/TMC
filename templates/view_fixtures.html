@@ -7,22 +7,22 @@
 
 {% if tables %}
 	{% for table in tables %}
-		<table>
-		<thead><tr>
+		<textarea cols=142 rows={{standings|length+3}}>
+		[table]
+		[tr]
 		{% for header in headers %}
-			<th>{{header}}</th>
+			[th]{{header}}[/th]
 		{% endfor %}
-		</tr></thead>
-		<tbody>
+		[/tr]
 		{% for row in table %}
-			<tr>
+			[tr]
 			{% for data in row %}
-				<td>{{data}}</td>
+				[td]{{data}}[/td]
 			{% endfor %}
-			</tr>
+			[/tr]
 		{% endfor %}
-		</tbody>
-		</table>
+		[/table]
+		[/textarea]
 	{% endfor %}
 {% else %}
 	<h2>No fixtures in this round </h2>
