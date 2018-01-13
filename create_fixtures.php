@@ -12,7 +12,7 @@ $context = $_GET['c'];
 
         try
         {
-$res = yoursql_query("call getStandings($context)");
+$res = yoursql_query("call getStandingsWithoutForfits($context)");
 $numTeams = $res->num_rows;
 $maxgp = 0;
 $matches = new SplStack();

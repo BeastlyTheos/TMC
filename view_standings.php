@@ -20,7 +20,7 @@ class standing
 $context = $_GET['c'];
 $contextName = yoursql_query("select name from contexts where id = $context")->fetch_row()[0];
 
-$res = yoursql_query("call getStandings($context)");
+$res = yoursql_query("call getStandingsWithForfits($context)");
 
 $standings = array();
 for($i = 1 ; $r = $res->fetch_assoc() ; $i++)
