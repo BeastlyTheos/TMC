@@ -9,4 +9,11 @@
 <li>{{t.name}}</li>
 {% endfor %}
 </ul>
+
+<h1>{{matches|length}} matches successfully created</h1>
+<ul>
+{% for match in matches %}
+	<li>{{match.home.name}} verses {{match.away.name}}</li>
+{% endfor %}
+</ul>
 {% endblock body %}

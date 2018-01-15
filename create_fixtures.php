@@ -26,12 +26,6 @@ for ($i = 0; $i < $numTeams; $i++)
 $matches = pairing_state_machine::create($teams, $context);
 usort($matches, 'teamcmp');
 
-echo "<h1>".count($matches)." matches are:</h1>";
-echo '<ul>';
-foreach ( $matches as $m )
-	echo "<li>{$m->home->name} verses {$m->away->name}</li>";
-echo '</ul>';
-
             //load $matches into sql
 $sql->begin_transaction();
 foreach ( $matches as $m )
@@ -50,7 +44,11 @@ foreach ( $matches as $m )
 	}//END EACH MATCH
 $sql->commit();
 
-echo "<p>Fixtures saved successfully</p>";
+$twig->display( "create_fixtures.html", array(
+	"teams"=>$teams,
+	"matches"=>$matches
+	)
+);
 }//end try
         catch (HTError $e)
         { printf($e.GetType() + "<br/>" + $e.Message +"<br/>" + $e.StackTrace); }
