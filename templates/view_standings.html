@@ -9,6 +9,9 @@
 {% for s in standings %}
 [tr][td]{{s.rank}}[/td][td]{{s.name}}[/td][td]{{s.wins}}[/td][td]{{s.losses}}[/td][td]{{s.goalsFor}}[/td][td]{{s.goalsAgainst}}[/td][td]{{s.goalsRatio|sporting_percent}}[/td][td]{{s.winningPercent|sporting_percent}}[/td][/tr]
 {% endfor %}
+
+WP - Winning Percent (W/GP)
+GR - Goals Ratio (GF/(GF+GA))
 [/table]
 </textarea>
 {%endblock body %}
