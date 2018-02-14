@@ -7,6 +7,7 @@ include 'yoursql.php';
 include 'TournamentFunctions.php';
 
 $editionID = (int) $_GET['e'];
+$edition = yoursql_query("select * from editions where id = $editionID")->fetch_assoc();
 if(isset($_GET['r']))
 	$round = (int) $_GET['r'];
 else $round = CupRoundOf($today);
@@ -85,7 +86,9 @@ while ( $context = $contexts->fetch_assoc() )
 $twig->display("view_fixtures.html", array(
 	"title"=>"Round $round Fixtures",
 	"headers"=>$headers,
-	"tables"=>$tables
+	"tables"=>$tables,
+	"forumThread"=>$edition['forumThread'],
+	"standingsPost"=>$edition['standingsPost']
 	)
 	);
 ?>
