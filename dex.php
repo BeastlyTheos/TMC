@@ -128,11 +128,6 @@ global $HT;
 function GetMailURL($username)
 {return 'http://hattrick.org/goto.ashx?path=/MyHattrick/Inbox/?actionType=newMail%26alias='.$username;
 }
-
-function getClubURL( $id)
-{return "http://hattrick.org/goto.ashx?path=/club?TeamID=$id";
-}
-
 function PrintMails()
 {global $HT;
 $res = yoursql_query('select name, id from teams');
