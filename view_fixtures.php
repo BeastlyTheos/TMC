@@ -56,7 +56,10 @@ while ( $context = $contexts->fetch_assoc() )
 				$row[] = "__ - __";
 
 		//load the names of the away teams
-		$row [] = sprintf("%32s [teamid=%d]", $m["awayName"], $m["awayId"]);
+		if ( $m["awayId"] )
+			$row [] = sprintf("%32s [teamid=%d]", $m["awayName"], $m["awayId"]);
+		else
+			$row [] = '[bye]';
 
 		//load either the match id or the areana id
 		if ( $hasCompleted )
