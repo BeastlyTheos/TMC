@@ -9,7 +9,6 @@ $HT->getTeam(1676757);
 //PrintSQL("call getStandings(3)");
 //PrintSQL("show create procedure getStandings");
 //echo CreateHTLiveURL();
-PrintMails();
 //UpdateTeamsStaticDataByEdition( 3);
 //ContextualiseTeams( yoursql_query("select teams.id, seed from teams, //entrants where teams.id = entrants.id and edition = 3 order by seed limit //12,12"), 8);
 
@@ -128,16 +127,5 @@ global $HT;
 function GetMailURL($username)
 {return 'http://hattrick.org/goto.ashx?path=/MyHattrick/Inbox/?actionType=newMail%26alias='.$username;
 }
-function PrintMails()
-{global $HT;
-$res = yoursql_query('select name, id from teams');
-echo "mails:<br/>\n";
-while($r = $res->fetch_assoc())
-	{//$club = $HT->getTeam($r['id']);
-	echo '<a target="_blank" href="'.GetClubURL($r["id"]).'">'.$r["name"].'</a><br/>';
-	//echo '<a target="_blank" href="'.GetMailURL($club->getLoginName()).'">'.$club->getTeamName().'</a><br/>\n';
-	}
-}
-
 ?>
 
