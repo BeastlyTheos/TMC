@@ -72,8 +72,8 @@ if ( count($teams) == $top )
 for ( $opponent = $top + 1 ; $opponent < count($teams) ; $opponent++ )
 	if ( ! $teams[$opponent]->hasMatch && ! $teams[$top]->hasPlayed($teams[$opponent]->id, $context) ) //if this is a valid pairing
 		{//create the match, then recurse to find complete set of pairings
-		$teams[$top]->hasMatch = $teams[$opponent]->hasMatch = true;
 		$match = new Match($teams[$top], $teams[$opponent]);
+		$match->home->hasMatch = $match->away->hasMatch = True;
 		$matches->push($match);
 
 		if ( self::pairBottomTeams($teams, $context, $matches))
@@ -102,8 +102,8 @@ if ( $bottom < 0 )
 for ( $opponent = $bottom - 1 ; $opponent >= 0 ; $opponent-- )
 	if ( ! $teams[$opponent]->hasMatch && ! $teams[$bottom]->hasPlayed($teams[$opponent]->id, $context) ) //if this is a valid pairing
 		{//create the match, then recurse to find complete set of pairings
-		$teams[$bottom]->hasMatch = $teams[$opponent]->hasMatch = true;
 		$match = new Match($teams[$opponent], $teams[$bottom]);
+		$match->home->hasMatch = $match->away->hasMatch = True;
 		$matches->push($match);
 
 		if ( self::pairTopTeams($teams, $context, $matches))
