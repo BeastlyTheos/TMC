@@ -24,6 +24,20 @@ return $matches;
 }
 
 
+function compareByAverageness( $a, $b)
+{
+if ( $a['wp'] == $b['wp] )
+	{
+	if ( $a['gr'] == $b['gr'] )
+		return 0;
+	else
+		return abs$a['gr']-0.5) > abs($b['gr']-0.5)? 1: -1;
+	}
+else
+	return abs($a['wp']-0.5) > abs($b['wp']-0.5)? 1: -1;
+}
+
+
 private static function setBye($teams, $context, $matches)
 {
 if ( count($teams) %2 == 1 )
