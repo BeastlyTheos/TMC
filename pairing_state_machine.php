@@ -19,6 +19,9 @@ return $matchArray;
 
 private static function pairNewTeams($teams, $context, $matches)
 {
+$foldedTeams = $matches;
+array.usort($foldedTeams, compareByAverageness);
+//if there are teams with no games played, and other teams with at least 1 win and 1 loss, pair them
 self::setBye($teams, $context, $matches);
 return $matches;
 }
