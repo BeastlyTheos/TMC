@@ -4,7 +4,7 @@ class pairing_state_machine
 public static function create($teams, $context)
 {
 $matchStack = new SplStack();
-self::setBye($teams, $context, $matchStack);
+self::pairNewTeams($teams, $context, $matchStack);
 $matchArray = array();
 
 while ( $matchStack->count())
@@ -15,6 +15,13 @@ $m = $matchStack->pop();
 
 return $matchArray;
 }//end function create
+
+
+private static function pairNewTeams($teams, $context, $matches)
+{
+self::setBye($teams, $context, $matches);
+return $matches;
+}
 
 
 private static function setBye($teams, $context, $matches)
