@@ -3,17 +3,17 @@ class pairing_state_machine
 {
 public static function create($teams, $context)
 {
-$stack = new SplStack();
-self::setBye($teams, $context, $matches);
-$arr = array();
+$matchStack = new SplStack();
+self::setBye($teams, $context, $matchStack);
+$matchArray = array();
 
-while ( $stack->count())
+while ( $matchStack->count())
 	{
-$m = $stack->pop();
-	$arr[] = $m;
+$m = $matchStack->pop();
+	$matchArray[] = $m;
 	}//end converting stack to array
 
-return $arr;
+return $matchArray;
 }//end function create
 
 
