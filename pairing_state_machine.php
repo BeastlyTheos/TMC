@@ -3,7 +3,8 @@ class pairing_state_machine
 {
 public static function create($teams, $context)
 {
-$stack = self::setBye($teams, $context);
+$stack = new SplStack();
+self::setBye($teams, $context, $matches);
 $arr = array();
 
 while ( $stack->count())
@@ -16,10 +17,8 @@ return $arr;
 }//end function create
 
 
-private static function setBye($teams, $context)
+private static function setBye($teams, $context, $matches)
 {
-$matches = new SplStack();
-
 if ( count($teams) %2 == 1 )
 	{
 	//find fewest number of byes recieved by a team that has played the maximum number of games
