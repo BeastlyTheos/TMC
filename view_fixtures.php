@@ -79,13 +79,13 @@ while ( $context = $contexts->fetch_assoc() )
 		}//end for each match
 
 	//add row to table
-	$tables[$context["name"]] = $rows;
+	$tables[$context["name"]]["data"] = $rows;
+	$tables[$context["name"]]["headers"] = $headers;
 	}//end iterating through contexts
 
 
 $twig->display("view_fixtures.html", array(
 	"title"=>"Round $round Fixtures",
-	"headers"=>$headers,
 	"tables"=>$tables,
 	"forumThread"=>$edition['forumThread'],
 	"standingsPost"=>$edition['standingsPost']

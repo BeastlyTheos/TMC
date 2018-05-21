@@ -3,18 +3,18 @@
 {% block title %}{{title}}{% endblock title %}
 
 {% block body %}
+{% if tables %}
 <h1>playing matchs</h1>
 
-{% if tables %}
-	{% for table in tables %}
 		<textarea cols=142 rows={{standings|length+3}}>
+	{% for table in tables %}
 		[table]
 		[tr]
-		{% for header in headers %}
+		{% for header in table.headers %}
 			[th]{{header}}[/th]
 		{% endfor %}
 		[/tr]
-		{% for row in table %}
+		{% for row in table.data %}
 			[tr]
 			{% for data in row %}
 				[td]{{data}}[/td]
@@ -22,9 +22,9 @@
 			[/tr]
 		{% endfor %}
 		[/table]
+	{% endfor %}
 Standings and fixtures: [link=/Forum/Read.aspx?t={{forumThread}}&u=-{{standingsPost}}&n=2&v=4]
 		</textarea>
-	{% endfor %}
 {% else %}
 	<h2>No fixtures in this round </h2>
 {% endif %}
