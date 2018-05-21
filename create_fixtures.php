@@ -23,7 +23,7 @@ if ( 0 != $numTeams )
 	//load the teams from the sql result into the teams array
 	for ($i = 0; $i < $numTeams; $i++)
 		{$r = $res->fetch_assoc();
-	$teams[$i] = new Team($r['id'], $i, $r['name'], $r['gp'], $r['byes']);
+		$teams[$i] = new Team($i, $r);
 		}
 
 	$matches = pairing_state_machine::create($teams, $context);

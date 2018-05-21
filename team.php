@@ -5,17 +5,21 @@ class Team
     public $id;
         public $rank;
     public $name;
+public $wp;
+public $gr;
 public $gamesPlayed;
 public $byes;
     public $hasMatch;
 
-public function __construct($id, $rank, $name, $gp, $byes)
-    {
-        $this->id = $id;
-        $this->rank = $rank;
-        $this->name = $name;
-$this->gamesPlayed = $gp;
-$this->byes = $byes;
+public function __construct($rank, $data)
+{
+$this->id = $data['id'];
+$this->rank = $data['rank'];
+$this->name = $data['name'];
+$this->wp = $data['wp'];
+$this->gr = $data['gr'];
+$this->gamesPlayed = $data['gp'];
+$this->byes = $data['byes'];
 $this->hasMatch = false;
 }//end constructor 
 

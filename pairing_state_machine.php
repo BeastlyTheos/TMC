@@ -19,25 +19,25 @@ return $matchArray;
 
 private static function pairNewTeams($teams, $context, $matches)
 {
-$foldedTeams = $matches;
-array.usort($foldedTeams, compareByAverageness);
+$foldedTeams = $teams;
+usort($foldedTeams, "self::compareByAverageness");
 //if there are teams with no games played, and other teams with at least 1 win and 1 loss, pair them
 self::setBye($teams, $context, $matches);
 return $matches;
 }
 
 
-function compareByAverageness( $a, $b)
-{
-if ( $a['wp'] == $b['wp] )
+static function compareByAverageness( $a, $b)
+{$a->q = false;
+if ( $a->wp == $b->wp )
 	{
-	if ( $a['gr'] == $b['gr'] )
+	if ( $a->gr == $b->gr )
 		return 0;
 	else
-		return abs$a['gr']-0.5) > abs($b['gr']-0.5)? 1: -1;
+		return abs($a->gr-0.5) > abs($b->gr-0.5)? 1: -1;
 	}
 else
-	return abs($a['wp']-0.5) > abs($b['wp']-0.5)? 1: -1;
+	return abs($a->wp-0.5) > abs($bwp-0.5)? 1: -1;
 }
 
 
