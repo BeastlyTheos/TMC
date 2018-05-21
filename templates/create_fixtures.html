@@ -3,6 +3,7 @@
 {% block title %}Create Fixtures{% endblock title %}
 
 {% block body %}
+{% if teams %}
 <h2>Pairing teams:</h2>
 <ul>
 {% for t in teams %}
@@ -16,4 +17,7 @@
 	<li>{{match.home.name}} verses {{match.away.name}}</li>
 {% endfor %}
 </ul>
+{% else %}
+<p> There are no active teams in this round that are out of the cup system.</p>
+{% endif %}
 {% endblock body %}
