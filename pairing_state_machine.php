@@ -28,16 +28,21 @@ return $matches;
 
 
 static function compareByAverageness( $a, $b)
-{$a->q = false;
+{
 if ( $a->wp == $b->wp )
 	{
-	if ( $a->gr == $b->gr )
-		return 0;
+	if ( $a->gamesPlayed == $b->gamesPlayed )
+		{
+		if ( $a->gr == $b->gr )
+			return 0;
+		else
+			return abs($a->gr-0.5) > abs($b->gr-0.5)? 1: -1;
+		}
 	else
-		return abs($a->gr-0.5) > abs($b->gr-0.5)? 1: -1;
+		return $a->gamesPlayed - $b->gamesPlayed;
 	}
 else
-	return abs($a->wp-0.5) > abs($bwp-0.5)? 1: -1;
+	return abs($a->wp-0.5) > abs($b->wp-0.5)? 1: -1;
 }
 
 

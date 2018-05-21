@@ -17,6 +17,8 @@ $this->id = $data['id'];
 $this->rank = $data['rank'];
 $this->name = $data['name'];
 $this->wp = $data['wp'];
+if ( $this->wp === null )
+	$this->wp = 0.5;
 $this->gr = $data['gr'];
 $this->gamesPlayed = $data['gp'];
 $this->byes = $data['byes'];
