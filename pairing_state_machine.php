@@ -21,7 +21,30 @@ private static function pairNewTeams($teams, $context, $matches)
 {
 $foldedTeams = $teams;
 usort($foldedTeams, "self::compareByAverageness");
-//if there are teams with no games played, and other teams with at least 1 win and 1 loss, pair them
+
+//if there are teams with no games played, pair them against the teams closest to 500
+if ( 0 == $foldedTeams[0]->gamesPlayed )
+	{//find next team that has games played
+	$current = $opponent = 0;
+	while ( count($foldedTeams) > ++$opponent )
+		{
+		$wp = $foldedTeams[$opponent]->wp;
+		$gp = $foldedTeams[$opponent]->gamesPlayed;
+
+		if ( 0 < $gp && 0 < $wp && $wp < 1 )
+			break;
+		}
+
+	//while there is a team with no games played, and there is an opponent left to pair it with
+	while ( 0 == $foldedTeams[$current]->gamesPlayed && count($foldedTeams) > $opponent )
+		{//pair them
+		$match = new Match($foldedTeams[$opponent], $foldedTeams[$current]);
+		$match->home->hasMatch = $match->away->hasMatch = True;
+		$matches->push($match);
+		$current++; $opponent++;
+		}
+	}
+
 self::setBye($teams, $context, $matches);
 return $matches;
 }
