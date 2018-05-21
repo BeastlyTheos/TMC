@@ -9,6 +9,7 @@
 		<textarea cols=142 rows={{standings|length+3}}>
 	{% for table in tables %}
 		[table]
+[tr][th colspan={{table.headers|length}}]{{table.title}}[/th][/tr]
 		[tr]
 		{% for header in table.headers %}
 			[th]{{header}}[/th]

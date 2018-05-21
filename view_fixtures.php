@@ -79,6 +79,7 @@ while ( $context = $contexts->fetch_assoc() )
 		}//end for each match
 
 	//add row to table
+	$tables[$context["name"]]["title"] = $context["name"];
 	$tables[$context["name"]]["data"] = $rows;
 	$tables[$context["name"]]["headers"] = $headers;
 	}//end iterating through contexts
