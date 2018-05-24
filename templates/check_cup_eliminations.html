@@ -7,7 +7,7 @@
 <p>Found {{teamsInCup|length + teamsEliminated|length}} teams.</p>
 
 {% if teamsInCup %}
-<h2>Teams in Cup</h2>
+<h2>{{teamsInCup|length}} Teams in Cup</h2>
 <ul>
 {% for team in teamsInCup %}
 <li>{{team}}</li>
@@ -18,7 +18,7 @@
 {% endif %}
 
 {% if teamsEliminated %}
-<h2>Teams eliminated from the cup system</h2>
+<h2>{{teamsEliminated|length}} Teams eliminated from the cup system</h2>
 <ul>
 {% for team in teamsEliminated %}
 <li>{{team}}</li>
