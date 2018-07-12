@@ -58,6 +58,7 @@ if(null != ($res = yoursql_query("select id from matches where id is not null an
 				$matchResult->awayGoals = $awayGoals;
 				$matchResults[] = $matchResult;
 				yoursql_query("call PlayMatch(".$match->getId().", $homeGoals, $awayGoals)");
+				yoursql_query("update matches set actualArena = ".$match->getArena()->getId()." where id = ".$match->getId());
 				}
 			else //has not been played yet
 				{$unplayedMatch = new UnplayedMatch();
