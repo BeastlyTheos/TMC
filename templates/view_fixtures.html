@@ -6,27 +6,27 @@
 {% if tables %}
 <h1>playing matchs</h1>
 
-		<textarea cols=142 rows={{standings|length+3}}>
-	{% for table in tables %}
-		[table]
+<textarea cols=142 rows={{standings|length+3}}>
+{% for table in tables %}
+[table]
 [tr][th colspan={{table.headers|length}}]{{table.title}}[/th][/tr]
-		[tr]
-		{% for header in table.headers %}
-			[th]{{header}}[/th]
-		{% endfor %}
-		[/tr]
-		{% for row in table.data %}
-			[tr]
-			{% for data in row %}
-				[td]{{data}}[/td]
-			{% endfor %}
-			[/tr]
-		{% endfor %}
-		[/table]
-	{% endfor %}
-Standings and fixtures: [link=/Forum/Read.aspx?t={{forumThread}}&u=-{{standingsPost}}&n=2&v=4]
-		</textarea>
+[tr]
+{% for header in table.headers %}
+[th]{{header}}[/th]
+{% endfor %}
+[/tr]
+{% for row in table.data %}
+[tr]
+{% for data in row %}
+[td]{{data}}[/td]
+{% endfor %}
+[/tr]
+{% endfor %}
+[/table]
+{% endfor %}
+Standings and fixtures: [link=/Forum/Read.aspx?t={{forumThread}}&u=-2&n={{standingsPost}}&v=4]
+</textarea>
 {% else %}
-	<h2>No fixtures in this round </h2>
+<h2>No fixtures in this round </h2>
 {% endif %}
 {% endblock body %}
