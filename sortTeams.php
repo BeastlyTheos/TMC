@@ -38,6 +38,10 @@ function getTeams($context)
 
 	while ( $team =  $res->fetch_assoc() )
 		{//cast fields to the correct datatype
+		if ( null == $team["wp"] )
+			$team["wp"] = 0.5;
+		if ( null == $team["gr"] )
+			$team["gr"] = 0.5;
 		foreach ( array("gp", "w", "l", "gf", "ga", "seed") as $field )
 			$team[$field] = (int) $team[$field];
 		foreach ( array("wp", "gr") as $field )
