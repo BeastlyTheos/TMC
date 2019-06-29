@@ -20,16 +20,43 @@ function compareTeams( $a, $b)
 	if($delta)
 		return $delta;
 	//sort by goal ratio descending
-$delta = cmp($a["gr"], $b["gr"]);
+	$delta = cmp($a["gr"], $b["gr"]);
 	if($delta)
 		return $delta;
 	//sort by total goals ascending
-$delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
+	$delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
 	if($delta)
 		return $delta;
 	//sort by seed ascending
 	return cmp($b["seed"], $a["seed"]);
 	}//end compare teams
+
+function compareByAverageness($a, $b)
+	{
+	if ( $a["gp"] && !$b["gp"] )
+		return 1;
+	if ( !$a["gp"] && $b["gp"] )
+		return -1;
+
+	//sort by absolute distance from .500 ascending
+	$delta = cmp(abs($b["wp"]-0.5), abs($a["wp"]-0.5));
+	if($delta)
+		return $delta;
+	//sort by games played descending
+	$delta = cmp($a["gp"], $b["gp"]);
+	if($delta)
+		return $delta;
+	//sort by absolute distance from even goal ratio ascending
+	$delta = cmp(abs($b["gr"]-0.5), abs($a["gr"]-0.5));
+	if($delta)
+		return $delta;
+	//sort by total goals ascending
+	$delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
+	if($delta)
+		return $delta;
+	//sort by seed ascending
+	return cmp($b["seed"], $a["seed"]);
+	}//end compareByAverageness
 
 function getTeams($context)
 	{
@@ -62,9 +89,12 @@ function getStandings($context)
 	}//end getStandings
 
 /*
-$teams = getStandings(17);
+$teams = getTeams(17);
+usort($teams, "compareByAverageness");
+//$teams = getStandings(17);
+//$teams = getTeamsByAverageness(17);
 echo "<h1>teams</h1><table>\n";
-$fields = array("name", "wp", "gr");
+$fields = array("name", "wp", "w", "l", "gr");
 echo "<tr>\n";
 echo "<th>name</th><th>wp</th><th>gr</th>";
 echo "</tr>\n";
