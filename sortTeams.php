@@ -31,7 +31,7 @@ $delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
 	return cmp($b["seed"], $a["seed"]);
 	}//end compare teams
 
-	function getStandings($context)
+function getTeams($context)
 	{
 	$res = yoursql_query("select name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where context = $context");
 	$teams = array();
@@ -44,6 +44,13 @@ $delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
 			$team[$field] = (float) $team[$field];
 		$teams[] = $team;
 		}
+
+	return $teams;
+	}//end getTeams
+
+function getStandings($context)
+	{
+	$teams = getTeams($context);
 
 	usort($teams, "compareTeams");
 
