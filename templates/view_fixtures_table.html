@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block body %}
+<table>
+<tr><th>Rank</th><th>Team</th><th>W</th><th>L</th><th>GF</th><th>GA</th><th>GR</th><th>WP</th></tr>
+{% for s in standings %}
+<tr><td>{{s.rank}}</td><td>{{s.name}}</td><td>{{s.wins}}</td><td>{{s.losses}}</td><td>{{s.goalsFor}}</td><td>{{s.goalsAgainst}}</td><td>{{s.goalsRatio|sporting_percent}}</td><td>{{s.winningPercent|sporting_percent}}</td></tr>
+{% endfor %}
+</table>
+
+{%endblock body %}
