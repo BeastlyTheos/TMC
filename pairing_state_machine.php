@@ -1,4 +1,6 @@
 <?php
+include_once "sortTeams.php";
+
 class pairing_state_machine
 {
 public static function create($teams, $context)
@@ -19,26 +21,26 @@ return $matchArray;
 
 private static function pairNewTeams($teams, $context, $matches)
 {
-$foldedTeams = $teams;
-usort($foldedTeams, "self::compareByAverageness");
+$teamsByAverageness = $teams;
+usort($teamsByAverageness, "compareByAverageness");
 
 //if there are teams with no games played, pair them against the teams closest to 500
-if ( 0 == $foldedTeams[0]->gamesPlayed )
+if ( 0 == $teamsByAverageness[0]->gamesPlayed )
 	{//find next team that has games played
 	$current = $opponent = 0;
-	while ( count($foldedTeams) > ++$opponent )
+	while ( count($teamsByAverageness) > ++$opponent )
 		{
-		$wp = $foldedTeams[$opponent]->wp;
-		$gp = $foldedTeams[$opponent]->gamesPlayed;
+		$wp = $teamsByAverageness[$opponent]->wp;
+		$gp = $teamsByAverageness[$opponent]->gamesPlayed;
 
 		if ( 0 < $gp && 0 < $wp && $wp < 1 )
 			break;
 		}
 
 	//while there is a team with no games played, and there is an opponent left to pair it with
-	while ( 0 == $foldedTeams[$current]->gamesPlayed && count($foldedTeams) > $opponent )
+	while ( 0 == $teamsByAverageness[$current]->gamesPlayed && count($teamsByAverageness) > $opponent )
 		{//pair them
-		$match = new Match($foldedTeams[$opponent], $foldedTeams[$current]);
+		$match = new Match($teamsByAverageness[$opponent], $teamsByAverageness[$current]);
 		$match->home->hasMatch = $match->away->hasMatch = True;
 		$matches->push($match);
 		$current++; $opponent++;
@@ -47,25 +49,6 @@ if ( 0 == $foldedTeams[0]->gamesPlayed )
 
 self::setBye($teams, $context, $matches);
 return $matches;
-}
-
-
-static function compareByAverageness( $a, $b)
-{
-if ( $a->wp == $b->wp )
-	{
-	if ( $a->gamesPlayed == $b->gamesPlayed )
-		{
-		if ( $a->gr == $b->gr )
-			return 0;
-		else
-			return abs($a->gr-0.5) > abs($b->gr-0.5)? 1: -1;
-		}
-	else
-		return $a->gamesPlayed - $b->gamesPlayed;
-	}
-else
-	return abs($a->wp-0.5) > abs($b->wp-0.5)? 1: -1;
 }
 
 

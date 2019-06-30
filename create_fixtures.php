@@ -10,21 +10,19 @@ include 'match.php';
 include 'pairing_state_machine.php'; //used for pairing_state_machine
 $upcomingRound  = CurrentRound;
 $context = $_GET['c'];
+include_once "sortTeams.php";
 
         try
         {
-$res = yoursql_query("call getStandingsWithoutForfits($context)");
-$numTeams = $res->num_rows;
+$teams = getStandings(17);
+$numTeams = count($teams);
 $matches = new SplStack();
-$teams = Array();
 
 if ( 0 != $numTeams )
 	{
 	//load the teams from the sql result into the teams array
 	for ($i = 0; $i < $numTeams; $i++)
-		{$r = $res->fetch_assoc();
-		$teams[$i] = new Team($i, $r);
-		}
+		$teams[$i]->rank = $i;
 
 	$matches = pairing_state_machine::create($teams, $context);
 	usort($matches, 'teamcmp');
