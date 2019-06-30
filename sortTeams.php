@@ -1,5 +1,6 @@
 <?php
 require_once "yoursql.php";
+include_once "team.php";
 
 function cmp($val1, $val2)
 	{if ( $val1 < $val2 )
@@ -12,60 +13,60 @@ function cmp($val1, $val2)
 function compareTeams( $a, $b)
 	{
 	//sort by wp descending
-	$delta = cmp($a["wp"], $b["wp"]);
+	$delta = cmp($a->wp, $b->wp);
 	if($delta)
 		return $delta;
 	//sort by games played descending
-	$delta = cmp($a["gp"], $b["gp"]);
+	$delta = cmp($a->gamesPlayed, $b->gamesPlayed);
 	if($delta)
 		return $delta;
 	//sort by goal ratio descending
-	$delta = cmp($a["gr"], $b["gr"]);
+	$delta = cmp($a->gr, $b->gr);
 	if($delta)
 		return $delta;
 	//sort by total goals ascending
-	$delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
+	$delta = cmp($b->gf+$b->ga, $a->gf+$a->ga);
 	if($delta)
 		return $delta;
 	//sort by seed ascending
-	return cmp($b["seed"], $a["seed"]);
+	return cmp($b->seed, $a->seed);
 	}//end compare teams
 
 function compareByAverageness($a, $b)
 	{
-	if ( $a["gp"] && !$b["gp"] )
+	if ( $a->gamesPlayed && !$b->gamesPlayed )
 		return 1;
-	if ( !$a["gp"] && $b["gp"] )
+	if ( !$a->gamesPlayed && $b->gamesPlayed )
 		return -1;
 
 	//sort by absolute distance from .500 ascending
-	$delta = cmp(abs($b["wp"]-0.5), abs($a["wp"]-0.5));
+	$delta = cmp(abs($b->wp-0.5), abs($a->wp-0.5));
 	if($delta)
 		return $delta;
 	//sort by games played descending
-	$delta = cmp($a["gp"], $b["gp"]);
+	$delta = cmp($a->gamesPlayed, $b->gamesPlayed);
 	if($delta)
 		return $delta;
 	//sort by absolute distance from even goal ratio ascending
-	$delta = cmp(abs($b["gr"]-0.5), abs($a["gr"]-0.5));
+	$delta = cmp(abs($b->gr-0.5), abs($a->gr-0.5));
 	if($delta)
 		return $delta;
 	//sort by total goals ascending
-	$delta = cmp($b["gf"]+$b["ga"], $a["gf"]+$a["ga"]);
+	$delta = cmp($b->gf+$b->ga, $a->gf+$a->ga);
 	if($delta)
 		return $delta;
 	//sort by seed ascending
-	return cmp($b["seed"], $a["seed"]);
+	return cmp($b->seed, $a->seed);
 	}//end compareByAverageness
 
 function getTeams($context)
 	{
-	$res = yoursql_query("select name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where context = $context");
+	$res = yoursql_query("select null as rank, standings.id, name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where context = $context");
 	$teams = array();
 
 	while ( $team =  $res->fetch_assoc() )
 		{//cast fields to the correct datatype
-		if ( null == $team["wp"] )
+	if ( null == $team["wp"] )
 			$team["wp"] = 0.5;
 		if ( null == $team["gr"] )
 			$team["gr"] = 0.5;
@@ -73,6 +74,7 @@ function getTeams($context)
 			$team[$field] = (int) $team[$field];
 		foreach ( array("wp", "gr") as $field )
 			$team[$field] = (float) $team[$field];
+		$team = new Team(null, $team);
 		$teams[] = $team;
 		}
 
@@ -102,7 +104,7 @@ for ($i = 0 ; $i < count($teams) ; $i++)
 {$t = $teams[$i];
 echo "<tr>";
 foreach ( $fields as $f )
-	echo "<td>${t[$f]}</td>";
+	echo "<td>".$t->$f."</td>";
 	echo "</tr>";
 	}
 echo "hi";

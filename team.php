@@ -21,7 +21,12 @@ if ( $this->wp === null )
 	$this->wp = 0.5;
 $this->gr = $data['gr'];
 $this->gamesPlayed = $data['gp'];
+$this->w = $data["w"];
+$this->l = $data["l"];
 $this->byes = $data['byes'];
+$this->gf = $data["gf"];
+$this->ga = $data["ga"];
+$this->seed = $data["seed"];
 $this->hasMatch = false;
 }//end constructor 
 
