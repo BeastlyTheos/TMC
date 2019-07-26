@@ -14,7 +14,7 @@ include_once "sortTeams.php";
 
         try
         {
-$teams = getStandings(17);
+$teams = getStandings($context);
 $numTeams = count($teams);
 $matches = new SplStack();
 
