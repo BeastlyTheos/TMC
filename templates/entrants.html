@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Entrants{% endblock title %}
+
+{% block body %}
+<table>
+<tr>
+<th>Name</th>
+<th>Seed</th>
+<th>ID</th>
+</tr>
+{% for team in teams %}
+<tr>
+<td>{{team.name}}</td>
+<td>{{team.seed}}</td>
+<td>{{team.id}}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock body %}
