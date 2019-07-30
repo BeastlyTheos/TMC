@@ -32,6 +32,9 @@ function compareTeams( $a, $b)
 	return cmp($b->seed, $a->seed);
 	}//end compare teams
 
+function compareMatches( $a, $b)
+{return compareTeams( $a->home, $b->home);}
+
 function compareByAverageness($a, $b)
 	{
 	if ( $a->gamesPlayed && !$b->gamesPlayed )
@@ -61,7 +64,7 @@ function compareByAverageness($a, $b)
 
 function getTeams($context)
 	{
-	$res = yoursql_query("select null as rank, standings.id, name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where !inNationalCup and context = $context");
+	$res = yoursql_query("select standings.id, name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where !inNationalCup and context = $context");
 	$teams = array();
 
 	while ( $team =  $res->fetch_assoc() )
@@ -74,7 +77,7 @@ function getTeams($context)
 			$team[$field] = (int) $team[$field];
 		foreach ( array("wp", "gr") as $field )
 			$team[$field] = (float) $team[$field];
-		$team = new Team(null, $team);
+		$team = new Team($team);
 		$teams[] = $team;
 		}
 

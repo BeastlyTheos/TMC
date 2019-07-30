@@ -59,7 +59,7 @@ if ( count($teams) %2 == 1 )
 	//find fewest number of byes recieved by a team that has played the maximum number of games
 	$maxPlayed = 0;
 	$maxByes = 0;
-	$bye = new Team(0, 0, "bye", 0, 0);
+	$bye = new Team(["id"=>0, "name"=>"bye"]);
 
 	foreach ( $teams as $team )
 		{

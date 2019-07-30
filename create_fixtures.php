@@ -25,7 +25,7 @@ if ( 0 != $numTeams )
 		$teams[$i]->rank = $i;
 
 	$matches = pairing_state_machine::create($teams, $context);
-	usort($matches, 'teamcmp');
+	usort($matches, 'compareMatches');
 
 	            //load $matches into sql
 	$sql->begin_transaction();
@@ -54,7 +54,4 @@ $twig->display( "create_fixtures.html", array(
 }//end try
         catch (HTError $e)
         { printf($e.GetType() + "<br/>" + $e.Message +"<br/>" + $e.StackTrace); }
-
-function teamcmp( $a, $b)
-{return $a->home->rank - $b->home->rank;}
 ?>

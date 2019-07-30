@@ -16,7 +16,6 @@ $twig->addFilter(
 include 'yoursql.php';
 
 class standing
-	{public $rank;
 	public $name;
 	public $wins;
 	public $losses;
