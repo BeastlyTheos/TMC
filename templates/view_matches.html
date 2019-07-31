@@ -4,15 +4,42 @@
 
 {% block body %}
 <table>
+
 <tr>
-<th>home</th>
-<th>away</th>
+<th>O</th>
+<th>Teams</th>
+<th>Score</th>
+<th>ID</th>
+<th>Round</th>
+<th>Context</th>
 </tr>
+
 {% for match in matches %}
 <tr>
-<td>{{match.home.name}}</td>
-<td>{{match.away.name}}</td>
+<td>{{match.o}}</td>
+<td>{{match.home.name}} - {{match.away.name}}</td>
+{% if match.type == "bye" %}
+<td>N/A</td>
+{% elseif match.type == "homeForfit" %}
+<td>home forfitted</td>
+{% elseif match.type == "awayForfit" %}
+<td>away forfitted</td>
+{% elseif not match.homeGoals or not match.awayGoals %}
+<td>Unplayed</td>
+{% else %}
+<td>{{match.homeGoals}} - {{match.awayGoals}}</td>
+{% endif %}
+{% if match.type == "match" and match.id %}
+<td>{{match.id}}</td>
+{% elseif match.type == "match" %}
+<td>unknown</td>
+{% else %}
+<td>N/A</td>
+{% endif %}
+<td>{{match.round}}</d>
+<td>{{match.context}}</td>
 </tr>
 {% endfor %}
+
 </table>
 {% endblock body %}
