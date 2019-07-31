@@ -37,6 +37,23 @@ private function extract($data, $attribute, $cast, $default)
 return $cast($default);
 }
 
+public static function getByID($id)
+{$id = strval($id);
+if (!isset($teamsCache[$id]))
+	{if ($id)
+		{$res = yoursql_query("select * from teams where id = $id");
+		if (1 != $res->num_rows)
+			throw new Exception("Tried to retrieve team with invalid id of $id");
+		$data = $res->fetch_assoc();
+		}
+	else
+		$data = ["id"=>0, "name"=>"bye"];
+	$team = new Team($data);
+	$teamsCache[$id] = $team;
+	}//end creating team
+return $teamsCache[$id];
+}
+
     public function hasPlayed($op, $context)
     {global $count;
     $query = "select CountMatchesBetween($this->id, $op, $context)";
