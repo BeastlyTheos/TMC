@@ -69,5 +69,5 @@ if(null != ($res = yoursql_query("select id from matches where id is not null an
 		}//end while there's matches to be found
 	}//end if there are matches to be played
 
-$twig->display("get_match_results.html", array("matchResults"=>$matchResults, "unplayedMatches"=>$unplayedMatches));
+$twig->display("check_match_results.html", array("matchResults"=>$matchResults, "unplayedMatches"=>$unplayedMatches));
 ?>

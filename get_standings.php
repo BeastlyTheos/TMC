@@ -16,6 +16,7 @@ $twig->addFilter(
 include 'yoursql.php';
 
 class standing
+{
 	public $name;
 	public $wins;
 	public $losses;
@@ -47,7 +48,7 @@ for($i = 1 ; $r = $res->fetch_assoc() ; $i++)
 	$standings[] = $s;
 	}
 
-$twig->display("view_standings.html", array(
+$twig->display("get_standings.html", array(
 	"title"=>"standings for $contextName",
 	"standings"=>$standings
 	)

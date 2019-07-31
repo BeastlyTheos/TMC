@@ -85,7 +85,7 @@ while ( $context = $contexts->fetch_assoc() )
 	}//end iterating through contexts
 
 
-$twig->display("view_fixtures.html", array(
+$twig->display("get_fixtures.html", array(
 	"title"=>"Round $round Fixtures",
 	"tables"=>$tables,
 	"forumThread"=>$edition['forumThread'],

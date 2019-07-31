@@ -9,7 +9,7 @@ include "TournamentFunctions.php";
 $res = yoursql_query("select teams.id as id, teams.name as name, seed from teams join entrants on teams.id = entrants.id where edition = $edition");
 $teams = $res->fetch_all(1);
 
-$twig->display("entrants.html", array(
+$twig->display("view_entrants.html", array(
 	"edition"=>$edition,
 	"teams"=>$teams,
 	)

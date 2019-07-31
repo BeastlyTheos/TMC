@@ -12,7 +12,7 @@ $matches = [];
 while ($data=$res->fetch_assoc())
 	$matches[] = Match::createFromArray($data);
 
-$twig->display("matches.html", array(
+$twig->display("view_matches.html", array(
 	"matches"=>$matches,
 	)
 );

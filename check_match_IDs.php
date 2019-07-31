@@ -104,5 +104,5 @@ if( ! isset($teamMatches[$id][$round]) || null === $teamMatches[$id][$round])
 	return $teamMatches[$id][$round];
 	}
 
-$twig->display("get_match_IDs.html", array("matchStatuses"=>$matchStatuses));
+$twig->display("check_match_IDs.html", array("matchStatuses"=>$matchStatuses));
 ?>
