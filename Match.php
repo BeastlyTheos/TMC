@@ -1,5 +1,6 @@
 <?php
 include_once "Team.php";
+$matchesCache = [];
 
 class Match
 {
@@ -49,5 +50,23 @@ private static function extractFromArray($data, $attribute, $cast, $default)
 	return $cast($data[$attribute]);
 return $cast($default);
 }
+
+public static function getByO($o)
+{
+$o = strval($o);
+if (!isset($matchesCache[$o]))
+	{if ($o)
+		{$res = yoursql_query("select * from matches where o = $o");
+		if (1 != $res->num_rows)
+			throw new Exception("Tried to retrieve match with invalid o of $o");
+		$data = $res->fetch_assoc();
+		}//end if $o is nonzero
+	else
+		$data = [];
+	$match = self::createFromArray($data);
+	$matchesCache[$o] = $match;
+	}//end if not set
+return $matchesCache[$o];
+}//end getByO
 }//end Match
 ?>
