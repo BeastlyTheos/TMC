@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}edit Match{% endblock title %}
+
+{% block body %}
+<form action="edit_match.php" method="post">
+<input type="hidden" name="o" value="{{match.o}}"/>
+<input type="hidden" name="context" value="{{match.context}}"/>
+<input type="hidden" name="homegoals" value="{{match.homegoals}}"/>
+<input type="hidden" name="awaygoals" value="{{match.awaygoals}}"/>
+<input type="hidden" name="arena" value="{{match.arena}}"/>
+
+<label for="home">Home Team</label>: 
+<select name="home" id="home">
+{% for team in teams %}
+{% if team.id == match.home.id %}
+<option value="{{team.id}}" selected="selected">{{team.name}}</option>
+{% else %}
+<option value="{{team.id}}">{{team.name}}</option>
+{% endif %}
+{% endfor %}
+</select>
+
+<label for="away">away Team</label>: 
+<select name="away" id="away">
+{% for team in teams %}
+{% if team.id == match.away.id %}
+<option value="{{team.id}}" selected="selected">{{team.name}}</option>
+{% else %}
+<option value="{{team.id}}">{{team.name}}</option>
+{% endif %}
+{% endfor %}
+</select>
+
+<label for="type">Type</label>: 
+<select name="type">
+<option value="match"{%if match.type=="match"%} selected="selected"{%endif%}>match</option>
+<option value="homeForfit"{%if match.type=="homeForfit"%} selected="selected"{%endif%}>homeForfit</option>
+<option value="awayForfit"{%if match.type=="awayForfit"%} selected="selected"{%endif%}>awayForfit</option>
+<option value="bye"{%if match.type=="bye"%} selected="selected"{%endif%}>bye</option>
+</select>
+
+<label id="id">id</label>: 
+<input name="id" value="{{match.id}}" id="id"/>
+
+<label id="round">round</label>: 
+<input name="round" value="{{match.round}}" type="number" id="round"/>
+
+<input value="Save" type="submit"/>
+</form>
+{% endblock body %}

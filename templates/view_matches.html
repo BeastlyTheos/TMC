@@ -16,7 +16,7 @@
 
 {% for match in matches %}
 <tr>
-<td>{{match.o}}</td>
+<td><a href="edit_match.php?o={{match.o}}">{{match.o}}</a></td>
 <td>{{match.home.name}} - {{match.away.name}}</td>
 {% if match.type == "bye" %}
 <td>N/A</td>
