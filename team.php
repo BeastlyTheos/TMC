@@ -1,5 +1,4 @@
 <?php
-$count = 0;
 $teamsCache = [];
 
 class Team
@@ -10,7 +9,7 @@ public $wp;
 public $gr;
 public $gamesPlayed;
 public $byes;
-    public $hasMatch;
+    public $hasMatch; //for backwards compatibility with the pairingStateMachine
 
 public function __construct($data)
 {
@@ -31,12 +30,20 @@ $this->seed = self::extract($data, "seed", "intval", 0);
 $this->hasMatch = false;
 }//end constructor 
 
+/* extract
+ * params: array of data, key for an array value, function that casts to a datatype, and default value
+ * returns:  either the value of data[key], or the default value
+ */
 private function extract($data, $attribute, $cast, $default)
 {if (isset($data[$attribute]) && $data[$attribute] != null)
 	return $cast($data[$attribute]);
 return $cast($default);
 }
 
+/* getByID
+ * param: id of the requested team
+ *returns: singleton of a team object
+ */
 public static function getByID($id)
 {$id = strval($id);
 if (!isset($teamsCache[$id]))
@@ -54,12 +61,13 @@ if (!isset($teamsCache[$id]))
 return $teamsCache[$id];
 }
 
-    public function hasPlayed($op, $context)
-    {global $count;
-    $query = "select CountMatchesBetween($this->id, $op, $context)";
-if($count++ > 80)
-{exit(); abort();}
+/* hasPlayed
+ * params: id of another team, and context id
+ * returns boolean indicating if the two teams have played before in the given context
+ */
+public function hasPlayed($op, $context)
+{$query = "select CountMatchesBetween($this->id, $op, $context)";
 return 0 != yoursql_query($query)->fetch_row()[0];
-           }//end hasPlayed
+}//end hasPlayed
 }//end team class
 ?>
