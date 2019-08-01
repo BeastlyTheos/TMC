@@ -68,5 +68,33 @@ if (!isset($matchesCache[$o]))
 	}//end if not set
 return $matchesCache[$o];
 }//end getByO
+
+public function save()
+{
+$vals = [];
+if ($this->home->id)
+	$vals[] = "home = ".$this->home->id;
+else
+	$vals[] = "home = null";
+	
+if ($this->away->id)
+	$vals[] = "away = ".$this->away->id;
+else
+	$vals[] = "away = null";
+	
+if ($this->id && $this->id != "0")
+	$vals[] = "id = ".$this->id;
+else
+	$vals[] = "id = null";
+$vals[] = "round = ".$this->round;
+$vals[] = "context = ".$this->context;
+
+$vals = join(", ", $vals);
+if ($this->o)
+	$query = "update matches set $vals where o = ".$this->o;
+else
+	$query = "insert into matches  set $vals";
+	yoursql_query($query);
+}//end save
 }//end Match
 ?>
