@@ -5,15 +5,20 @@ $edition = 9;
 $context = 19;
 define("CurrentRound", CupRoundOf($today));
 
+/* CupRoundOf
+ * param: date
+ * returns the week in the HT season as an int between 1 and 16
+ */
 function CupRoundOf($date)
 {global $today, $startOfNationalCup;
 return (int) ($date->diff($startOfNationalCup)->days /7 +1);
 }//end HTRound
 
-/*function HTClubForumLink($id)
-{return '[teamid='.$id.']';}
-*/
-
+/* printSQL
+ * legacy function
+ * param: an SQL query string
+ * echos an HTML table of the resultant data from the SQL string
+ */
 function PrintSQL($query)
 {$res = yoursql_query($query);
 echo "<table>";
@@ -29,7 +34,11 @@ while($r = $res->fetch_row())
 echo '</table>';
 }
 
-/*function FindTeamRegions()
+/* findTeamRegions
+ * legacy function that might be obsolete
+ * updates the region ID and region name of every team that is missing one or the other
+ */
+function FindTeamRegions()
 {global $HT;
 if( null != $res = yoursql_query("select id from prior_teams where ! regionId or !regionName"))
 	{while($r = $res->fetch_assoc())
@@ -43,9 +52,13 @@ if( null != $res = yoursql_query("select id from prior_teams where ! regionId or
 else
 	echo "all teams have a region";
 }//end find team regions
-*/
 
-/*function FindArenaIds()
+
+/* findArenaIds
+ * legacy function that might be obsolete
+ * updates the arena data for all teams
+ */
+function FindArenaIds()
 {global $HT;
 //if( null != $res = yoursql_query("select team from arenas where ! id or id is null or id = 0 limit 10,10000"))
 if( null != $res = yoursql_query("select a.team from arenas as a, arenas as b where a.team != b.team and a.id = b.id  limit 10,10000"))
@@ -61,7 +74,4 @@ if( null != $res = yoursql_query("select a.team from arenas as a, arenas as b wh
 else
 	echo "all arenas have an id";
 }//end find arena ids
-*/
-
-
 ?>
