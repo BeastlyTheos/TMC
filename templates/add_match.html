@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Add Match{% endblock title %}
+
+{% block body %}
+<form action="add_match.php" method="post">
+
+<label for="home">Home Team: </label>
+<select name="home" id="home">
+{% for team in teams %}
+{% if team.id == match.home.id %}
+<option value="{{team.id}}" selected="selected">{{team.name}}</option>
+{% else %}
+<option value="{{team.id}}">{{team.name}}</option>
+{% endif %}
+{% endfor %}
+</select>
+
+<label for="away">away Team: </label>
+<select name="away" id="away">
+{% for team in teams %}
+{% if team.id == match.away.id %}
+<option value="{{team.id}}" selected="selected">{{team.name}}</option>
+{% else %}
+<option value="{{team.id}}">{{team.name}}</option>
+{% endif %}
+{% endfor %}
+</select>
+
+<label for="context">Context: </label>
+<input name="context" value="{{match.context}}" type="number" id="context"/>
+
+<label for="round">round: </label>
+<input name="round" value="{{match.round}}" type="number" id="round"/>
+
+<input value="Save" type="submit"/>
+</form>
+{% endblock body %}
