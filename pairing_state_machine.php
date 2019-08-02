@@ -40,7 +40,7 @@ if ( 0 == $teamsByAverageness[0]->gamesPlayed )
 	//while there is a team with no games played, and there is an opponent left to pair it with
 	while ( 0 == $teamsByAverageness[$current]->gamesPlayed && count($teamsByAverageness) > $opponent )
 		{//pair them
-		$match = new Match($teamsByAverageness[$opponent], $teamsByAverageness[$current]);
+		$match = new Match(["home"=>$teamsByAverageness[$opponent], "away"=> $teamsByAverageness[$current]]);
 		$match->home->hasMatch = $match->away->hasMatch = True;
 		$matches->push($match);
 		$current++; $opponent++;
@@ -74,7 +74,7 @@ if ( count($teams) %2 == 1 )
 				if ( $teams[$i]->gamesPlayed == $gp && $teams[$i]->byes == $numByes )
 					{
 					$teams[$i]->hasMatch = true;
-					$matches->Push( new Match($teams[$i], $bye));
+					$matches->Push( new Match(["home"=>$teams[$i], "away"=> $bye]));
 
 					if ( self::pairTopTeams($teams, $context, $matches) )
 						return $matches;
@@ -106,7 +106,7 @@ if ( count($teams) == $top )
 for ( $opponent = $top + 1 ; $opponent < count($teams) ; $opponent++ )
 	if ( ! $teams[$opponent]->hasMatch && ! $teams[$top]->hasPlayed($teams[$opponent]->id, $context) ) //if this is a valid pairing
 		{//create the match, then recurse to find complete set of pairings
-		$match = new Match($teams[$top], $teams[$opponent]);
+		$match = new Match(["home"=>$teams[$top], "away"=> $teams[$opponent]]);
 		$match->home->hasMatch = $match->away->hasMatch = True;
 		$matches->push($match);
 
@@ -136,7 +136,7 @@ if ( $bottom < 0 )
 for ( $opponent = $bottom - 1 ; $opponent >= 0 ; $opponent-- )
 	if ( ! $teams[$opponent]->hasMatch && ! $teams[$bottom]->hasPlayed($teams[$opponent]->id, $context) ) //if this is a valid pairing
 		{//create the match, then recurse to find complete set of pairings
-		$match = new Match($teams[$opponent], $teams[$bottom]);
+		$match = new Match(["home"=>$teams[$opponent], "away"=> $teams[$bottom]]);
 		$match->home->hasMatch = $match->away->hasMatch = True;
 		$matches->push($match);
 

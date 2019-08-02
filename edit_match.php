@@ -10,7 +10,7 @@ include "match.php";
 //initialise the match object
 if ($_POST)
 	{//try to save the post data as a match
-$match = Match::createFromArray($_POST);
+$match = new Match($_POST);
 	try {
 		$match->save();
 		header("Location: view_matches.php");
@@ -21,9 +21,9 @@ $match = Match::createFromArray($_POST);
 else 
 	{//get value of o
 	if (isset($_GET["o"]))
-		$o = strval($_GET["o"]);
+		$o = $_GET["o"];
 	else
-		$o = "0";
+		$o = null;
 	$match = Match::getByO($o);
 	}
 
