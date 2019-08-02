@@ -17,27 +17,31 @@ $this->id = $data['id'];
 if (!$this->id)
 	$this->id = null;
 $this->name = $data['name'];
-$this->wp = self::extract($data, "wp", "floatval", 0.5);
-$this->gr = self::extract($data, "gr", "floatval", 0.5);
-$this->gamesPlayed = self::extract($data, "gp", "intval", 0);
-$this->w = self::extract($data, "w", "intval", 0);
-$this->d = self::extract($data, "d", "intval", 0);
-$this->l = self::extract($data, "l", "intval", 0);
-$this->byes = self::extract($data, "byes", "intval", 0);
-$this->gf = self::extract($data, "gf", "intval", 0);
-$this->ga = self::extract($data, "ga", "intval", 0);
-$this->seed = self::extract($data, "seed", "intval", 0);
+$this->wp = self::extract($data, "wp", 0.5);
+$this->gr = self::extract($data, "gr", 0.5);
+$this->gamesPlayed = self::extract($data, "gp", 0);
+$this->w = self::extract($data, "w", 0);
+$this->d = self::extract($data, "d", 0);
+$this->l = self::extract($data, "l", 0);
+$this->byes = self::extract($data, "byes", 0);
+$this->gf = self::extract($data, "gf", 0);
+$this->ga = self::extract($data, "ga", 0);
+$this->seed = self::extract($data, "seed", 0);
 $this->hasMatch = false;
 }//end constructor 
 
 /* extract
- * params: array of data, key for an array value, function that casts to a datatype, and default value
+ * params: array of data, key for the array, function that casts to a datatype, and default value
  * returns:  either the value of data[key], or the default value
  */
-private function extract($data, $attribute, $cast, $default)
-{if (isset($data[$attribute]) && $data[$attribute] != null)
-	return $cast($data[$attribute]);
-return $cast($default);
+private function extract($data, $key, $default)
+{if (isset($data[$key]))
+	if ("null"==$data[$key])
+		return null;
+	else
+		return $data[$key];
+else
+	return $default;
 }
 
 /* getByID
