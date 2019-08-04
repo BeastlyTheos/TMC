@@ -13,7 +13,7 @@ $HT->getTeam(1676757);
 //ContextualiseTeams( yoursql_query("select teams.id, seed from teams, //entrants where teams.id = entrants.id and edition = 3 order by seed limit //12,12"), 8);
 
 function ContextualiseTeams( $res, $context)
-{while ( $r = $res->fetch_assoc())
+{while ( $r = $res->fetch())
 	yoursql_query("call contextualise_team( ${r['id']}, $context, ${r['seed']})");
 }
 
@@ -21,7 +21,7 @@ function UpdateTeamsStaticDataByEdition( $e)
 {global $HT, $sql;
 $res = yoursql_query(" select id from entrants where edition = $e");
 
-while ( $r = $res->fetch_assoc())
+while ( $r = $res->fetch())
 	{$t = $HT->getTeam($r['id']);
 	$name = mysqli_real_escape_string( $sql,  $t->getTeamName());
 	echo $r['id'].' '.$name."<br/>";
@@ -39,7 +39,7 @@ while ( $r = $res->fetch_assoc())
 $res = yoursql_query("select home, away, round   from matches where id is null order by round asc");
   
 //find the ID of every match
-  while($r = $res->fetch_assoc()) //for each match
+  while($r = $res->fetch()) //for each match
 	{if($matches = getTeamMatchesByRound($r["home"], $r["round"]))
 		{$homeTeamHasFriendly = false; $isMatchScheduled = false;
 		for ($i = $matches->getNumberMatches() ; !$homeTeamHasFriendly &&   null != ($m = $matches->getMatch($i)) && $m->getDate() >= startOfNationalCupWeek($r["round"])->format(dateFormat) ; $i--) //for each match
@@ -101,8 +101,8 @@ global $HT;
   $teamsOutOfCup = array();      
   
     if($res = yoursql_query("select id from teams where inNationalCup;")) //if there's a team in the national cup
-	{echo "There are ".$res->num_rows." teams in the national cup<br/>";
-	while($r = $res->fetch_assoc()) //for each team
+	{echo "There are ".$res->rowCount()." teams in the national cup<br/>";
+	while($r = $res->fetch()) //for each team
 		                    {
 		$isInCup = false; $hasOngoingMatch= false;
 		                    $matches = GetTeamMatchesByRound($r['id']);

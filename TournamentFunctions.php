@@ -31,7 +31,7 @@ echo "<table>";
 for($i = 0 ; $i < $res->field_count ; $i++)
 	echo "<th>".$res->fetch_field_direct($i)->name."</th>";
 echo '</tr>';
-while($r = $res->fetch_row())
+while($r = $res->fetch())
 	{echo '<tr>';
 	for($i = 0 ; $i < $res->field_count ; $i++)
 		echo "<td>".$r[$i]."</td>";
@@ -47,7 +47,7 @@ echo '</table>';
 function FindTeamRegions()
 {global $HT;
 if( null != $res = yoursql_query("select id from prior_teams where ! regionId or !regionName"))
-	{while($r = $res->fetch_assoc())
+	{while($r = $res->fetch())
 		{$team = $HT->getTeam($r["id"]);
 		$regionId = $team->getRegionId();
 		$regionName = $team->getRegionName();
@@ -68,7 +68,7 @@ function FindArenaIds()
 {global $HT;
 //if( null != $res = yoursql_query("select team from arenas where ! id or id is null or id = 0 limit 10,10000"))
 if( null != $res = yoursql_query("select a.team from arenas as a, arenas as b where a.team != b.team and a.id = b.id  limit 10,10000"))
-	{while($r = $res->fetch_assoc())
+	{while($r = $res->fetch())
 		{$team = $HT->getTeam($r['team']);
 		$arenaId = $team->getArenaId();
 		$regionId = $team->getRegionId();

@@ -4,7 +4,7 @@ include "CHPPConnection.php";
 
 $teams = yoursql_query('select id, name, userid from teams where !isBot');
 
-while ( $row = $teams->fetch_assoc())
+while ( $row = $teams->fetch())
 	{$id = $row['id'];
 	$name = $row['name'];
 	$userid = $row['userid'];

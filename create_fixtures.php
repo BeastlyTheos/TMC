@@ -28,7 +28,7 @@ if ( 0 != $numTeams )
 	usort($matches, 'compareMatches');
 
 	            //load $matches into sql
-	$sql->begin_transaction();
+	$sql->beginTransaction();
 	foreach ( $matches as $m )
 		{//as for convention, insure that the home team is not a bye
 		if (0 == $m->home->id)

@@ -53,9 +53,9 @@ public static function getByID($id)
 if (!isset($teamsCache[$id]))
 	{if ($id)
 		{$res = yoursql_query("select * from teams where id = $id");
-		if (1 != $res->num_rows)
+		if (1 != $res->rowCount())
 			throw new Exception("Tried to retrieve team with invalid id of $id");
-		$data = $res->fetch_assoc();
+		$data = $res->fetch();
 		}
 	else
 		$data = ["id"=>0, "name"=>"bye"];
@@ -71,7 +71,7 @@ return $teamsCache[$id];
  */
 public function hasPlayed($op, $context)
 {$query = "select CountMatchesBetween($this->id, $op, $context)";
-return 0 != yoursql_query($query)->fetch_row()[0];
+return 0 != yoursql_query($query)->fetch()[0];
 }//end hasPlayed
 }//end team class
 ?>

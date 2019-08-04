@@ -1,11 +1,16 @@
 <?php
 require "local_variables.php";
 
-$sql = new mysqli($mysql_host, $mysql_user, $mysql_pw, $db);
-if($sql->connect_error)
-	die ('Connect Error ('.$sql->connect_errno.') '.
-	$sql->connect_error.'.  '.$sql->sqlstate);
-mysqli_query($sql, "set Names 'utf8'");
+try {
+	$sql = new PDO("mysql:host=$mysql_host;dbname=$db", $mysql_user, $mysql_pw);
+	// set the PDO error mode to exception
+	$sql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	}
+catch(PDOException $e)
+	{
+	echo "Connection failed: " . $e->getMessage();
+	}
+$sql->query("set Names 'utf8'");
 $queryCounter = 0;
 
 function yoursql_query($query, $act = "")
@@ -14,11 +19,10 @@ function yoursql_query($query, $act = "")
 //	echo "query $queryCounter: $query</br>";
 global $sql;
 $return = $sql->query($query);
-	if(mysqli_errno($sql))
-	throw new Exception("|".mysqli_error($sql).' '.mysqli_errno($sql).'.</br>'.$query.'<br>'.$act);
+	//if(mysqli_errno($sql))
+	//throw new Exception("|".mysqli_error($sql).' '.mysqli_errno($sql).'.</br>'.$query.'<br>'.$act);
 
 //		echo "|".mysqli_error($sql).' '.mysqli_errno($sql).'.</br>'.$query.'<br>'.$act;
-		while ($sql->next_result());
 	return $return;
 	}
 	

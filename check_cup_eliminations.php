@@ -12,7 +12,7 @@ $teamNamesInCup = array();
 $res = yoursql_query("select id from standings where inNationalCup");
 
 if($res)
-	{while($r = $res->fetch_assoc())
+	{while($r = $res->fetch())
 		{$team = $HT->getTeam($r['id']);
 if( ! $team->isInCup())
 			{$teamIdsEliminated[] = $team->getTeamId();

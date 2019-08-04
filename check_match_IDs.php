@@ -19,7 +19,7 @@ $matchStatuses = array();
 $res = yoursql_query("select home, away, h.name as homeName, a.name as awayName, context, round   from matches, teams as h, teams as a  where h.id = home and away = a.id and type = 'match' and matches.id is null order by round asc");
   
 //find the ID of every match
- while($r = $res->fetch_assoc()) //for each match  in the database
+ while($r = $res->fetch()) //for each match  in the database
 	{$matchStatus = new MatchStatus();
 	$matchStatus->home = $r["homeName"];
 	$matchStatus->away = $r["awayName"];

@@ -28,12 +28,12 @@ class standing
 
 
 $context = $_GET['c'];
-$contextName = yoursql_query("select name from contexts where id = $context")->fetch_row()[0];
+$contextName = yoursql_query("select name from contexts where id = $context")->fetch()[0];
 
 $res = yoursql_query("call getStandingsWithForfits($context)");
 
 $standings = array();
-for($i = 1 ; $r = $res->fetch_assoc() ; $i++)
+for($i = 1 ; $r = $res->fetch() ; $i++)
 	{
 	$s = new standing();
 	$s->rank = $i;

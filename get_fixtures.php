@@ -7,7 +7,7 @@ include 'yoursql.php';
 include 'TournamentFunctions.php';
 
 $editionID = (int) $_GET['e'];
-$edition = yoursql_query("select * from editions where id = $editionID")->fetch_assoc();
+$edition = yoursql_query("select * from editions where id = $editionID")->fetch();
 if(isset($_GET['r']))
 	$round = (int) $_GET['r'];
 else $round = CupRoundOf($today);
@@ -19,7 +19,7 @@ $contexts = yoursql_query("select * from contexts where edition = $editionID and
 $tables = array();
 
 
-while ( $context = $contexts->fetch_assoc() )
+while ( $context = $contexts->fetch() )
 	{
 		$matches = yoursql_query("call getMatchesByContext( {$context['id']}, $round)");
 	$usesNeutralVenues = $context['usesNeutralVenues'];

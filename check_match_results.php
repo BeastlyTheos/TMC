@@ -23,7 +23,7 @@ $unplayedMatches = array();
 
 //get teams   and dates of matches with an ID, but not played
 if(null != ($res = yoursql_query("select id from matches where id is not null and homegoals is null"))) //and round < ".CupRoundOf($today).";")))
-	{while($r = $res->fetch_assoc())
+	{while($r = $res->fetch())
 		{if($match = $HT->getSeniorMatchDetails($r['id'], false))
 			{$homeTeam = $match->getHomeTeam();
 			$awayTeam = $match->getAwayTeam();

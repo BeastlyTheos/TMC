@@ -7,7 +7,7 @@ $key = 'hrLVfkDKtEl9ZxXcp7jNr2';
 $HT = new CHPPConnection($key, $secret);
 
 $res = yoursql_query("select oauthToken, oauthTokenSecret from matches.users;", "selecting token and secret");
-$tokens = mysqli_fetch_row($res);
+$tokens = $res->fetch();
 $HT->setOauthToken($tokens[0]);
 //$HT->setOauthToken( 'POlWwPkzjqJiowBz');
 $HT->setOauthTokenSecret($tokens[1]);

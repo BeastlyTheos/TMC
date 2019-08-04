@@ -9,7 +9,7 @@ include "match.php";
 
 $res = yoursql_query("select * from matches where context = $context");
 $matches = [];
-while ($data=$res->fetch_assoc())
+while ($data=$res->fetch())
 	$matches[] = new Match($data);
 
 $twig->display("view_matches.html", array(

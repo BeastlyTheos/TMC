@@ -70,9 +70,9 @@ $o = strval($o);
 if (!isset($matchesCache[$o]))
 	{if ($o)
 		{$res = yoursql_query("select * from matches where o = $o");
-		if (1 != $res->num_rows)
+		if (1 != $res->rowCount())
 			throw new Exception("Tried to retrieve match with invalid o of $o");
-		$data = $res->fetch_assoc();
+		$data = $res->fetch();
 		}//end if $o is nonzero
 	else
 		$data = [];

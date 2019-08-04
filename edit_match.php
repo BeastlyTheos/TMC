@@ -28,7 +28,7 @@ else
 	}
 
 $res = yoursql_query("select teams.id, teams.name from teams join standings on teams.id = standings.id where context = $context");
-$teams = $res->fetch_all(1);
+$teams = $res->fetchAll();
 $teams[] = Team::getByID(0);
 
 $twig->display("edit_match.html", array(

@@ -67,7 +67,7 @@ function getTeams($context)
 	$res = yoursql_query("select standings.id, name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where !inNationalCup and context = $context");
 	$teams = array();
 
-	while ( $team =  $res->fetch_assoc() )
+	while ( $team =  $res->fetch() )
 		{//cast fields to the correct datatype
 	if ( null == $team["wp"] )
 			$team["wp"] = 0.5;
