@@ -14,6 +14,12 @@ function CupRoundOf($date)
 return (int) ($date->diff($startOfNationalCup)->days /7 +1);
 }//end HTRound
 
+/* msg
+ * prints a message within p tags
+ */
+function msg($m)
+{print("<p>$m</p>\n");}
+
 /* printSQL
  * legacy function
  * param: an SQL query string
