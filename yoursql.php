@@ -11,19 +11,22 @@ catch(PDOException $e)
 	echo "Connection failed: " . $e->getMessage();
 	}
 $sql->query("set Names 'utf8'");
-$queryCounter = 0;
 
 function yoursql_query($query, $act = "")
-	{global $queryCounter;
-	$queryCounter++;
-//	echo "query $queryCounter: $query</br>";
+	{
 global $sql;
-$return = $sql->query($query);
-	//if(mysqli_errno($sql))
-	//throw new Exception("|".mysqli_error($sql).' '.mysqli_errno($sql).'.</br>'.$query.'<br>'.$act);
+try {
+	return $sql->query($query);
+}catch (PDOException $e) {
+	$info = $sql->errorInfo();
+	printf("<title>MySQL Error %d</title>\n".
+	"<p>%s</p>\n".
+	"<p>From query: %s</p>",
+	$info[1], $info[2], $query);
+	throw $e;
+	}
 
-//		echo "|".mysqli_error($sql).' '.mysqli_errno($sql).'.</br>'.$query.'<br>'.$act;
-	return $return;
+return;
 	}
 	
 	//always returns row offset to beginning
