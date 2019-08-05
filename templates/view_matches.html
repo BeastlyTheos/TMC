@@ -21,13 +21,13 @@
 {% if match.type == "bye" %}
 <td>N/A</td>
 {% elseif match.type == "homeForfit" %}
-<td>home forfitted</td>
+<td>home forfitt</td>
 {% elseif match.type == "awayForfit" %}
-<td>away forfitted</td>
-{% elseif not match.homeGoals or not match.awayGoals %}
+<td>away forfitt</td>
+{% elseif match.homegoals is null or match.awaygoals is null %}
 <td>Unplayed</td>
 {% else %}
-<td>{{match.homeGoals}} - {{match.awayGoals}}</td>
+<td>{{match.homegoals}} - {{match.awaygoals}}</td>
 {% endif %}
 {% if match.type == "match" and match.id %}
 <td>{{match.id}}</td>
