@@ -1,0 +1,7 @@
+<phpunit bootstrap="C:\xampp\htdocs\tournament\vendor\autoload.php">
+  <testsuites>
+    <testsuite name="default">
+      <directory>C:\xampp\htdocs\tournament\tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
