@@ -25,7 +25,7 @@ function compareTeams( $a, $b)
 	if($delta)
 		return $delta;
 	//sort by total goals ascending
-	$delta = cmp($b->gf+$b->ga, $a->gf+$a->ga);
+	$delta = cmp($a->gf+$a->ga, $b->gf+$b->ga);
 	if($delta)
 		return $delta;
 	//sort by seed ascending
