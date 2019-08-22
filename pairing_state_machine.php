@@ -62,10 +62,11 @@ if ( count($teams) %2 == 1 )
 	$bye = new Team(["id"=>0, "name"=>"bye"]);
 
 	foreach ( $teams as $team )
-		{
-		$maxByes = $team->byes > $maxByes?  $team->byes:  $maxByes;
-		$maxPlayed = $team->gamesPlayed > $maxPlayed?  $team->gamesPlayed:  $maxPlayed;
-		}
+		if ( !$team->hasMatch)
+			{
+			$maxByes = $team->byes > $maxByes?  $team->byes:  $maxByes;
+			$maxPlayed = $team->gamesPlayed > $maxPlayed?  $team->gamesPlayed:  $maxPlayed;
+			}
 
 	for ( $gp = $maxPlayed ;  $gp >= 0 ; $gp--)
 		for ( $numByes = 0 ; $numByes <= $maxByes ; $numByes++ )
