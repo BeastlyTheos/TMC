@@ -16,6 +16,10 @@ function compareTeams( $a, $b)
 	$delta = cmp($a->wp, $b->wp);
 	if($delta)
 		return $delta;
+	//sort by wins over/under 500 descending
+	$delta = cmp($a->w - $a->l, $b->w - $b->l);
+	if($delta)
+		return $delta;
 	//sort by games played descending
 	$delta = cmp($a->gamesPlayed, $b->gamesPlayed);
 	if($delta)
@@ -24,8 +28,8 @@ function compareTeams( $a, $b)
 	$delta = cmp($a->gr, $b->gr);
 	if($delta)
 		return $delta;
-	//sort by total goals ascending
-	$delta = cmp($a->gf+$a->ga, $b->gf+$b->ga);
+	//sort by goal differential descending
+	$delta = cmp($a->gf-$a->ga, $b->gf-$b->ga);
 	if($delta)
 		return $delta;
 	//sort by seed ascending
