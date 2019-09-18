@@ -18,7 +18,7 @@ if($res)
 	{//$URL = "http://hattrick.org/goto.ashx?path=
 
 	$ids = array();
-	while ($r = $res->fetch_assoc())
+	while ($r = $res->fetch())
 		$ids[] = $r['id'];
 	
 
