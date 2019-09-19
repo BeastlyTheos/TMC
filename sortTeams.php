@@ -10,7 +10,13 @@ function cmp($val1, $val2)
 	return 0;
 	}
 
-function compareTeams( $a, $b)
+function compareTeams_consideringForfits( $a, $b)
+	{return compareTeams( $a, $b, True);}
+
+function compareTeams_neglectingForfits( $a, $b)
+{return compareTeams( $a, $b, False);}
+
+function compareTeams( $a, $b, $considerForfits)
 	{
 	//sort by wp descending
 	$delta = cmp($a->wp, $b->wp);
@@ -20,6 +26,17 @@ function compareTeams( $a, $b)
 	$delta = cmp($a->w - $a->l, $b->w - $b->l);
 	if($delta)
 		return $delta;
+	if ($considerForfits)
+		{
+		//sort by forfits given ascending
+		$delta = cmp($b->forfits, $a->forfits);
+		if($delta)
+			return $delta;
+		//sort by forfits recieved descending
+		$delta = cmp($a->forfitsRecieved, $b->forfitsRecieved);
+		if($delta)
+			return $delta;
+			}
 	//sort by games played descending
 	$delta = cmp($a->gamesPlayed, $b->gamesPlayed);
 	if($delta)
@@ -37,7 +54,7 @@ function compareTeams( $a, $b)
 	}//end compare teams
 
 function compareMatches( $a, $b)
-{return compareTeams( $a->home, $b->home);}
+{return compareTeams_consideringForfits( $a->home, $b->home);}
 
 function compareByAverageness($a, $b)
 	{
@@ -68,7 +85,7 @@ function compareByAverageness($a, $b)
 
 function getTeams($context)
 	{
-	$res = yoursql_query("select standings.id, name, w+d+l as gp, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where active and !inNationalCup and context = $context");
+	$res = yoursql_query("select standings.id, name, w+d+l as gp, forfits, forfitsRecieved, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where active and !inNationalCup and context = $context");
 	$teams = array();
 
 	while ( $team =  $res->fetch() )
@@ -77,7 +94,7 @@ function getTeams($context)
 			$team["wp"] = 0.5;
 		if ( null == $team["gr"] )
 			$team["gr"] = 0.5;
-		foreach ( array("gp", "w", "l", "gf", "ga", "seed") as $field )
+		foreach ( array("gp", "forfits", "forfitsRecieved", "w", "l", "gf", "ga", "seed") as $field )
 			$team[$field] = (int) $team[$field];
 		foreach ( array("wp", "gr") as $field )
 			$team[$field] = (float) $team[$field];
@@ -88,11 +105,14 @@ function getTeams($context)
 	return $teams;
 	}//end getTeams
 
-function getStandings($context)
+function getStandings($context, $considerForfits)
 	{
 	$teams = getTeams($context);
 
-	usort($teams, "compareTeams");
+	if ($considerForfits)
+		usort($teams, "compareTeams_consideringForfits");
+	else
+		usort($teams, "compareTeams_neglectingForfits");
 
 	return $teams;
 	}//end getStandings
