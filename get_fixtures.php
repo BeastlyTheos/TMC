@@ -6,7 +6,10 @@ require_once 'vendor/autoload.php';
 include 'yoursql.php';
 include 'TournamentFunctions.php';
 
-$editionID = (int) $_GET['e'];
+if (isset($_GET['e']))
+	$editionID = (int) $_GET['e'];
+else
+	$editionID = $edition;
 $edition = yoursql_query("select * from editions where id = $editionID")->fetch();
 if(isset($_GET['r']))
 	$round = (int) $_GET['r'];
@@ -87,6 +90,7 @@ while ( $context = $contexts->fetch() )
 
 $twig->display("get_fixtures.html", array(
 	"title"=>"Round $round Fixtures",
+	"round"=>$round,
 	"tables"=>$tables,
 	"forumThread"=>$edition['forumThread'],
 	"standingsPost"=>$edition['standingsPost']

@@ -7,7 +7,8 @@ include "TournamentFunctions.php";
 
 $twig->display("index.html", array(
 	"edition"=>$edition,
-	"context"=>$context
+	"context"=>$context,
+	"round"=>CurrentRound
 	)
 );
 ?>

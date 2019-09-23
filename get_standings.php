@@ -14,6 +14,7 @@ $twig->addFilter(
 );
 
 include 'yoursql.php';
+include "TournamentFunctions.php";
 
 class standing
 {
@@ -27,7 +28,8 @@ class standing
 	}
 
 
-$context = $_GET['c'];
+if (isset($_GET['c']))
+	$context = $_GET['c'];
 $contextName = yoursql_query("select name from contexts where id = $context")->fetch()[0];
 
 $res = yoursql_query("call getStandingsWithForfits($context)");
@@ -50,6 +52,7 @@ for($i = 1 ; $r = $res->fetch() ; $i++)
 
 $twig->display("get_standings.html", array(
 	"title"=>"standings for $contextName",
+	"context"=>$context,
 	"standings"=>$standings
 	)
 );

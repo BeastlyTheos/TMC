@@ -29,4 +29,9 @@ Standings and fixtures: [link=/Forum/Read.aspx?t={{forumThread}}&u=-2&n={{standi
 {% else %}
 <h2>No fixtures in this round </h2>
 {% endif %}
+<div>
+<a href="get_fixtures.php?r={{round-1}}"><<< previous round</a>
+<a href="check_cup_eliminations.php">check cup eliminations</a>
+<a href="get_fixtures.php?r={{round+1}}">next round>>></a>
+</div>
 {% endblock body %}
