@@ -1,7 +1,7 @@
 ﻿<?php $debug = true;
 require_once 'vendor/autoload.php';
-  $loader = new Twig_Loader_Filesystem('templates');
- $twig = new Twig_Environment($loader, array("debug"=>$debug));
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, array("debug"=>$debug));
 
 include 'yoursql.php';
 include 'TournamentFunctions.php';
@@ -22,9 +22,8 @@ $contexts = yoursql_query("select * from contexts where edition = $editionID and
 $tables = array();
 
 
-while ( $context = $contexts->fetch() )
-	{
-		$matches = yoursql_query("call getMatchesByContext( {$context['id']}, $round)");
+while ( $context = $contexts->fetch() ) {
+	$matches = yoursql_query("call getMatchesByContext( {$context['id']}, $round)");
 	$usesNeutralVenues = $context['usesNeutralVenues'];
 	$rows = array();
 
@@ -45,8 +44,7 @@ while ( $context = $contexts->fetch() )
 		$headers[] = "Suggested Arena ID";
 
 	//load table data
-	foreach ( $matches as $m )
-		{
+	foreach ( $matches as $m ) {
 		$row = array();
 
 		//load the name of the home team
@@ -66,34 +64,33 @@ while ( $context = $contexts->fetch() )
 			$row [] = '[bye]';
 
 		//load either the match id or the areana id
-		if ( $hasCompleted )
-			{
+		if ( $hasCompleted ) {
 			if ( "match" == $m["type"] )
 				$row[] = sprintf("[matchid=%d]", $m["matchId"]);
 			else if ( "homeForfit" == $m["type"] )
 				$row[] = "home forfit";
 			else if ( "awayForfit" == $m["type"] )
 				$row[] = "away forfit";
-			}//end if has completed
+		}//end if has completed
 		else if ( $usesNeutralVenues )
 			$row[] = $m["arena"];
 
 		$rows[] = $row;
-		}//end for each match
+	}//end for each match
 
 	//add row to table
 	$tables[$context["name"]]["title"] = $context["name"];
 	$tables[$context["name"]]["data"] = $rows;
 	$tables[$context["name"]]["headers"] = $headers;
-	}//end iterating through contexts
+}//end iterating through contexts
 
 
 $twig->display("get_fixtures.html", array(
-	"title"=>"Round $round Fixtures",
-	"round"=>$round,
-	"tables"=>$tables,
-	"forumThread"=>$edition['forumThread'],
-	"standingsPost"=>$edition['standingsPost']
+		"title"=>"Round $round Fixtures",
+		"round"=>$round,
+		"tables"=>$tables,
+		"forumThread"=>$edition['forumThread'],
+		"standingsPost"=>$edition['standingsPost']
 	)
-	);
+);
 ?>

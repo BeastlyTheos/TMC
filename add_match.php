@@ -1,15 +1,15 @@
 <?php $debug = true;
 require_once 'vendor/autoload.php';
-  $loader = new Twig_Loader_Filesystem('templates');
- $twig = new Twig_Environment($loader, array("debug"=>$debug));
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, array("debug"=>$debug));
 
 include "yoursql.php";
 include "TournamentFunctions.php";
 include "match.php";
 
 //initialise the match object
-if ($_POST)
-	{//try to save the post data as a match
+if ($_POST) {
+	//try to save the post data as a match
 	$home = $_POST["home"];
 	$away = $_POST["away"];
 	$context = $_POST["context"];
@@ -21,12 +21,11 @@ if ($_POST)
 			yoursql_query("call scheduleBye($home, $context, $round)");
 		msg("redirecting");
 		header("Location: view_matches.php");
-		}
-	catch (Exception $e)
-		{msg("Error saving new match: ".$e->getMessage());}
-	$match = new Match($_POST);
+	} catch (Exception $e) {
+		msg("Error saving new match: ".$e->getMessage());
 	}
-else
+	$match = new Match($_POST);
+} else
 	$match = new Match([]);
 
 $res = yoursql_query("select teams.id, teams.name from teams join standings on teams.id = standings.id where context = $context");
@@ -34,8 +33,8 @@ $teams = $res->fetchAll();
 $teams[] = Team::getByID(0);
 
 $twig->display("add_match.html", array(
-	"match"=>$match,
-	"teams"=>$teams,
+		"match"=>$match,
+		"teams"=>$teams,
 	)
 );
 ?>

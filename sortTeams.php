@@ -2,22 +2,23 @@
 require_once "yoursql.php";
 include_once "team.php";
 
-function cmp($val1, $val2)
-	{if ( $val1 < $val2 )
+function cmp($val1, $val2) {
+	if ( $val1 < $val2 )
 		return 1;
 	if ( $val1 > $val2 )
 		return -1;
 	return 0;
-	}
+}
 
-function compareTeams_consideringForfits( $a, $b)
-	{return compareTeams( $a, $b, True);}
+function compareTeams_consideringForfits( $a, $b) {
+	return compareTeams( $a, $b, True);
+}
 
-function compareTeams_neglectingForfits( $a, $b)
-{return compareTeams( $a, $b, False);}
+function compareTeams_neglectingForfits( $a, $b) {
+	return compareTeams( $a, $b, False);
+}
 
-function compareTeams( $a, $b, $considerForfits)
-	{
+function compareTeams( $a, $b, $considerForfits) {
 	//sort by wp descending
 	$delta = cmp($a->wp, $b->wp);
 	if($delta)
@@ -26,8 +27,7 @@ function compareTeams( $a, $b, $considerForfits)
 	$delta = cmp($a->w - $a->l, $b->w - $b->l);
 	if($delta)
 		return $delta;
-	if ($considerForfits)
-		{
+	if ($considerForfits) {
 		//sort by forfits given ascending
 		$delta = cmp($b->forfits, $a->forfits);
 		if($delta)
@@ -36,7 +36,7 @@ function compareTeams( $a, $b, $considerForfits)
 		$delta = cmp($a->forfitsRecieved, $b->forfitsRecieved);
 		if($delta)
 			return $delta;
-			}
+	}
 	//sort by games played descending
 	$delta = cmp($a->gamesPlayed, $b->gamesPlayed);
 	if($delta)
@@ -51,13 +51,13 @@ function compareTeams( $a, $b, $considerForfits)
 		return $delta;
 	//sort by seed ascending
 	return cmp($b->seed, $a->seed);
-	}//end compare teams
+}//end compare teams
 
-function compareMatches( $a, $b)
-{return compareTeams_consideringForfits( $a->home, $b->home);}
+function compareMatches( $a, $b) {
+	return compareTeams_consideringForfits( $a->home, $b->home);
+}
 
-function compareByAverageness($a, $b)
-	{
+function compareByAverageness($a, $b) {
 	if ( $a->gamesPlayed && !$b->gamesPlayed )
 		return 1;
 	if ( !$a->gamesPlayed && $b->gamesPlayed )
@@ -81,16 +81,15 @@ function compareByAverageness($a, $b)
 		return $delta;
 	//sort by seed ascending
 	return cmp($b->seed, $a->seed);
-	}//end compareByAverageness
+}//end compareByAverageness
 
-function getTeams($context)
-	{
+function getTeams($context) {
 	$res = yoursql_query("select standings.id, name, w+d+l as gp, forfits, forfitsRecieved, (2*w+d)/(2*(w+d+l)) as wp, w, l, byes, gf/(gf+ga) as gr, gf, ga, seed from standings join teams on standings.id = teams.id where active and !inNationalCup and context = $context");
 	$teams = array();
 
-	while ( $team =  $res->fetch() )
-		{//cast fields to the correct datatype
-	if ( null == $team["wp"] )
+	while ( $team =  $res->fetch() ) {
+		//cast fields to the correct datatype
+		if ( null == $team["wp"] )
 			$team["wp"] = 0.5;
 		if ( null == $team["gr"] )
 			$team["gr"] = 0.5;
@@ -100,13 +99,12 @@ function getTeams($context)
 			$team[$field] = (float) $team[$field];
 		$team = new Team($team);
 		$teams[] = $team;
-		}
+	}
 
 	return $teams;
-	}//end getTeams
+}//end getTeams
 
-function getStandings($context, $considerForfits)
-	{
+function getStandings($context, $considerForfits) {
 	$teams = getTeams($context);
 
 	if ($considerForfits)
@@ -115,7 +113,7 @@ function getStandings($context, $considerForfits)
 		usort($teams, "compareTeams_neglectingForfits");
 
 	return $teams;
-	}//end getStandings
+}//end getStandings
 
 /*
 $teams = getTeams(17);

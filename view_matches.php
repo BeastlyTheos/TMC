@@ -1,7 +1,7 @@
 <?php $debug = true;
 require_once 'vendor/autoload.php';
-  $loader = new Twig_Loader_Filesystem('templates');
- $twig = new Twig_Environment($loader, array("debug"=>$debug));
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, array("debug"=>$debug));
 
 include "yoursql.php";
 include "TournamentFunctions.php";
@@ -13,7 +13,7 @@ while ($data=$res->fetch())
 	$matches[] = new Match($data);
 
 $twig->display("view_matches.html", array(
-	"matches"=>$matches,
+		"matches"=>$matches,
 	)
 );
 ?>

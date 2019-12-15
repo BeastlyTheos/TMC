@@ -5,17 +5,17 @@ session_start();
 
 /*check if user has access, if not, redirect to login page*/
 /*first check   if pht connection is persisted*/
-if(! isset($_SESSION["HT"]))
-	{echo "no chpp connection is persisted.<br/>";
+if(! isset($_SESSION["HT"])) {
+	echo "no chpp connection is persisted.<br/>";
 	exit;
-	}
+}
 
 $HT = $_SESSION["HT"];
-if(! (isset($_REQUEST["oauth_token"]) && isset($_REQUEST["oauth_verifier"])))
-	{echo "no parameters in URL<br/>";
+if(! (isset($_REQUEST["oauth_token"]) && isset($_REQUEST["oauth_verifier"]))) {
+	echo "no parameters in URL<br/>";
 	exit;
-	}
- $HT->retrieveAccessToken($_REQUEST['oauth_token'], $_REQUEST['oauth_verifier']);
+}
+$HT->retrieveAccessToken($_REQUEST['oauth_token'], $_REQUEST['oauth_verifier']);
 
 echo "<title>signedIn</title>";
 echo $HT->getTeam()->getTeamName()."<br/>".time()."<br/>";

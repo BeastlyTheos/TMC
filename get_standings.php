@@ -1,23 +1,21 @@
 <?php $debug = true;
 require_once 'vendor/autoload.php';
-  $loader = new Twig_Loader_Filesystem('templates');
- $twig = new Twig_Environment($loader, array("debug"=>$debug));
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, array("debug"=>$debug));
 $twig->addFilter(
-	new Twig_Filter('sporting_percent', function ($num )
-		{
-		if ( 1 > $num )
-			return sprintf(" .%03.0d", 1000*$num);
-		else
-			return sprintf("%.0d", 1000*$num);
-		}
+new Twig_Filter('sporting_percent', function ($num ) {
+	if ( 1 > $num )
+		return sprintf(" .%03.0d", 1000*$num);
+	else
+		return sprintf("%.0d", 1000*$num);
+}
 	)
 );
 
 include 'yoursql.php';
 include "TournamentFunctions.php";
 
-class standing
-{
+class standing {
 	public $name;
 	public $wins;
 	public $losses;
@@ -25,7 +23,7 @@ class standing
 	public $goalsAgainst;
 	public $goalsRatio;
 	public $winningPercent;
-	}
+}
 
 
 if (isset($_GET['c']))
@@ -35,8 +33,7 @@ $contextName = yoursql_query("select name from contexts where id = $context")->f
 $res = yoursql_query("call getStandingsWithForfits($context)");
 
 $standings = array();
-for($i = 1 ; $r = $res->fetch() ; $i++)
-	{
+for($i = 1 ; $r = $res->fetch() ; $i++) {
 	$s = new standing();
 	$s->rank = $i;
 	$s->name = $r['name'];
@@ -48,12 +45,12 @@ for($i = 1 ; $r = $res->fetch() ; $i++)
 	$s->winningPercent = $r['wp'];
 
 	$standings[] = $s;
-	}
+}
 
 $twig->display("get_standings.html", array(
-	"title"=>"standings for $contextName",
-	"context"=>$context,
-	"standings"=>$standings
+		"title"=>"standings for $contextName",
+		"context"=>$context,
+		"standings"=>$standings
 	)
 );
 ?>

@@ -12,6 +12,8 @@ $upcomingRound  = CurrentRound;
 $context = $_GET['c'];
 include_once "sortTeams.php";
 
+$context = 20;
+
 try {
 	$teams = getStandings($context, false);
 	$numTeams = count($teams);
