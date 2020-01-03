@@ -1,8 +1,8 @@
 <?php
 $today = new DateTimeImmutable();
-$startOfNationalCup = new DateTimeImmutable("2019-06-27"); //thursday  before first national cup match
-$edition = 9;
-$context = 19;
+$startOfNationalCup = new DateTimeImmutable("2019-10-23"); //thursday  before first national cup match
+$edition = 10;
+$context = 21;
 define("CurrentRound", CupRoundOf($today));
 
 /* CupRoundOf
