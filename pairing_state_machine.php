@@ -34,6 +34,13 @@ class pairing_state_machine {
 
 			//while there is a team with no games played, and there is an opponent left to pair it with
 			while ( 0 == $teamsByAverageness[$current]->gamesPlayed && count($teamsByAverageness) > $opponent ) {
+				$wp = $teamsByAverageness[$current];
+				$avgTeam = $teamsByAverageness[$current];
+				$wp = $avgTeam->wp;
+				$diff = $avgTeam->w - $avgTeam->l;
+				$diff *= $diff;
+				if ($wp ==1 || $wp == 0 || $diff > 1)
+					break;
 				//pair them
 				$match = new Match(["home"=>$teamsByAverageness[$opponent], "away"=> $teamsByAverageness[$current]]);
 				$match->home->hasMatch = $match->away->hasMatch = True;
