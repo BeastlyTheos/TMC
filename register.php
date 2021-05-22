@@ -27,10 +27,10 @@ if ( isset($_GET["id"]) && isset($_GET["seed"]) ) {
 	$regionId = $team->getRegionId();
 	$arenaId = $team->getArenaId();
 
-	//yoursql_query("insert into teams set id=$id, name='$name', region=$regionId on duplicate key update name='$name', region=$regionId");
-	//yoursql_query("insert into entrants set id = $id, edition=$edition, seed=$seed");
+	yoursql_query("insert into teams set id=$id, name='$name', region=$regionId on duplicate key update name='$name', region=$regionId");
+	yoursql_query("insert into entrants set id = $id, edition=$edition, seed=$seed");
 	yoursql_query("insert into standings set id=$id, context=$context, seed =$seed");
-	//yoursql_query("insert into arenas set id=$arenaId, region=$regionId, team = $id on duplicate key update region=$regionId");
+	yoursql_query("insert into arenas set id=$arenaId, region=$regionId, team = $id on duplicate key update region=$regionId");
 
 	$registeredTeamId = $_GET["id"];
 }//end registering team
